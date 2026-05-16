@@ -29,7 +29,12 @@
 
 }
 
-html { scroll-behavior: smooth; }
+html,
+body {
+  scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 body {
   font-family: var(--font-body);
   background: var(--paper);
