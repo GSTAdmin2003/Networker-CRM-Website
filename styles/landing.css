@@ -1052,3 +1052,195 @@ footer {
   margin-top: 32px;
   letter-spacing: 0.04em;
 }
+
+/* ═════════════════════════════════════════════════════════════════════
+   COMPREHENSIVE MOBILE FIX — overflow containment + full breakpoints
+   ═════════════════════════════════════════════════════════════════════ */
+
+/* ── Base containment (all viewports) ─────────────────────────────── */
+
+/* Feature cards lack overflow:hidden — their .feature-vis negative
+   margins can escape the grid on some browsers */
+.feature { overflow: hidden; }
+
+/* Pipeline kanban: truncate text so columns don't force-widen */
+.vis-pipe-head { overflow: hidden; }
+.vis-pipe-head span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.vis-pipe-card {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── ≤ 640px additions (extends the existing block above) ─────────── */
+@media (max-width: 640px) {
+  .vis-call-num { font-size: 14px; letter-spacing: 0.02em; gap: 8px; }
+  .vis-call-wave { height: 26px; }
+  .vis-call-meta { font-size: 10px; }
+
+  .vis-pipe { gap: 4px; padding: 10px 14px; }
+  .vis-pipe-col { padding: 6px; }
+
+  .vis-ai { padding: 12px 16px; font-size: 10.5px; }
+  .vis-ai-action { padding: 6px 8px; font-size: 10px; gap: 6px; }
+  .vis-ai-tag { font-size: 8px; }
+
+  .footer-inner { align-items: flex-start; }
+}
+
+/* ── ≤ 480px (new) ───────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  /* Nav */
+  .nav-divider { display: none; }
+
+  /* Hero */
+  .hero { padding: 40px 0; }
+  h1.hero-headline {
+    font-size: clamp(30px, 8.5vw, 40px);
+    max-width: 100%;
+    margin-bottom: 18px;
+  }
+  .hero-sub { font-size: 15px; margin-bottom: 22px; }
+  .hero-meta { gap: 10px; margin-top: 32px; padding-top: 20px; }
+  .hero-meta-item { font-size: 11.5px; gap: 6px; }
+
+  /* Sections */
+  .section { padding: 48px 0; }
+  .section-tight { padding: 40px 0; }
+  .section-lede { font-size: 15px; }
+
+  /* Problem */
+  .problem-stat { font-size: clamp(72px, 22vw, 100px); }
+  .problem-list li { font-size: 13px; gap: 10px; }
+
+  /* Features */
+  .features-head { margin-bottom: 28px; }
+  .feature { padding: 24px 18px; }
+  .feature-vis { margin: 0 -18px 20px; height: 128px; }
+  .feature-title { font-size: 17px; }
+  .feature-desc { font-size: 13.5px; }
+  .feature-num { margin-bottom: 14px; }
+
+  /* Compare table cells */
+  .compare-table th, .compare-table td { padding: 11px 11px; font-size: 12.5px; }
+  .compare-prod { font-size: 13px; }
+  .compare-price { font-size: 11.5px; }
+  .check-icon, .x-icon { width: 16px; height: 16px; }
+  .compare-cell-y, .compare-cell-n, .compare-cell-addon { font-size: 11.5px; }
+
+  /* Pricing */
+  .pricing-card { padding: 24px 20px; gap: 24px; }
+  .pricing-amount-num { font-size: 56px; }
+  .pricing-amount-cur { font-size: 22px; }
+  .pricing-amount-unit { font-size: 13px; margin-left: 4px; }
+  .pricing-headline { font-size: 16px; }
+  .pricing-sub { font-size: 13.5px; }
+  .pricing-incl { gap: 8px 14px; }
+  .pricing-incl-item { font-size: 13px; gap: 8px; }
+  .pricing-foot { font-size: 11px; flex-wrap: wrap; gap: 10px 20px; margin-top: 20px; }
+
+  /* Team */
+  .team-grid { gap: 14px; }
+
+  /* Waitlist */
+  .waitlist-sub { font-size: 14px; margin-bottom: 24px; }
+  .wl-foot { gap: 12px; margin-top: 16px; }
+
+  /* Footer */
+  footer { padding: 40px 0 28px; }
+  .footer-inner { flex-direction: column; gap: 20px; }
+  .footer-meta { gap: 14px; flex-wrap: wrap; }
+  .footer-copy { margin-top: 18px; }
+}
+
+/* ── ≤ 360px (new — very small phones) ──────────────────────────── */
+@media (max-width: 360px) {
+  .wrap, .wrap-narrow { padding: 0 14px; }
+
+  /* Nav */
+  .nav-inner { gap: 6px; }
+  .nav-logo-name { font-size: 13px; }
+  .lang-switch { height: 26px; }
+  .lang-btn { padding: 0 7px; font-size: 10px; }
+  .nav-cta { height: 30px; padding: 0 8px; font-size: 11.5px; }
+
+  /* Hero */
+  .hero { padding: 30px 0 28px; }
+  h1.hero-headline { font-size: clamp(26px, 8vw, 34px); margin-bottom: 14px; }
+  .hero-sub { font-size: 13.5px; margin-bottom: 18px; line-height: 1.5; }
+  .hero-actions { flex-direction: column; gap: 8px; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
+  .btn { height: 42px; font-size: 13px; }
+  .hero-meta { gap: 8px; margin-top: 24px; padding-top: 16px; }
+  .hero-meta-item { font-size: 10.5px; }
+
+  /* Sections */
+  .section { padding: 36px 0; }
+  .section-tight { padding: 28px 0; }
+  .section-title { font-size: clamp(20px, 6.5vw, 26px); }
+  .section-lede { font-size: 14px; }
+
+  /* Problem */
+  .problem-inner { gap: 36px; }
+  .problem-stat { font-size: clamp(58px, 19vw, 76px); }
+  .problem-text h2 { font-size: clamp(19px, 6vw, 24px); }
+  .problem-text p { font-size: 13px; }
+  .problem-stat-caption { font-size: 10.5px; }
+
+  /* Features */
+  .features-head { margin-bottom: 20px; }
+  .feature { padding: 20px 14px; }
+  .feature-vis { margin: 0 -14px 14px; height: 116px; }
+  .feature-title { font-size: 15px; }
+  .feature-desc { font-size: 12.5px; }
+
+  /* Feature vis internals */
+  .vis-call-num { font-size: 12px; gap: 6px; flex-wrap: wrap; justify-content: center; }
+  .vis-call-meta { font-size: 9px; }
+  .vis-call-wave span { width: 2px; gap: 2px; }
+  .vis-ai { font-size: 10px; padding: 10px 12px; }
+  .vis-inbox { padding: 12px 14px; gap: 6px; }
+  .vis-msg-bubble { font-size: 10.5px; padding: 4px 8px; }
+  .vis-pipe { padding: 8px 10px; gap: 3px; }
+  .vis-pipe-col { padding: 5px; border-radius: 4px; }
+  .vis-pipe-head { font-size: 8px; }
+  .vis-pipe-card { padding: 4px 5px; font-size: 9px; }
+  .vis-pipe-value { font-size: 8px; }
+
+  /* Compare */
+  .compare-table th, .compare-table td { padding: 9px 8px; font-size: 11px; }
+  .compare-prod { font-size: 12px; }
+  .compare-cell-y, .compare-cell-n, .compare-cell-addon { font-size: 11px; }
+
+  /* Pricing */
+  .pricing-card { padding: 18px 14px; gap: 20px; }
+  .pricing-amount-num { font-size: 48px; }
+  .pricing-amount-cur { font-size: 18px; }
+  .pricing-tag { font-size: 9px; }
+  .pricing-headline { font-size: 15px; }
+  .pricing-sub { font-size: 13px; }
+  .pricing-incl-item { font-size: 12.5px; }
+  .pricing-foot { flex-direction: column; gap: 6px; }
+
+  /* Team */
+  .team-content { padding: 14px 14px 16px; }
+  .team-name { font-size: 14px; }
+  .team-bio { font-size: 12px; }
+  .team-photo-initials { width: 56px; height: 56px; font-size: 18px; }
+
+  /* Waitlist */
+  .waitlist h2 { font-size: clamp(20px, 7vw, 28px); }
+  .waitlist-sub { font-size: 13px; }
+  .wl-input, .wl-submit { height: 40px; }
+  .wl-foot { font-size: 9.5px; gap: 10px; }
+
+  /* Footer */
+  footer { padding: 32px 0 22px; }
+  .footer-meta { flex-direction: column; gap: 10px; font-size: 12px; }
+  .footer-copy { font-size: 9.5px; margin-top: 14px; }
+}
