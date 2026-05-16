@@ -27,9 +27,6 @@
   --ink-50:  #F8FAFB;
   --paper:   #FBFCFD;
 
-  --font-head: 'Plus Jakarta Sans', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
 }
 
 html { scroll-behavior: smooth; }
