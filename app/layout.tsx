@@ -23,6 +23,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://networker.ge'),
   title: 'Networker — All-in-one. AI-powered. CRM for Georgian sales teams.',
   description: 'Georgian SIP number, AI on every call, shared WhatsApp inbox, and Meta lead capture. $60/user/month, everything included.',
   openGraph: {
