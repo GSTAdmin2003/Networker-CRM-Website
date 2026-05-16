@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Plus_Jakarta_Sans, Inter, JetBrains_Mono } from 'next/font/google'
 import '@/app/globals.css'
 import '@/styles/landing.css'
@@ -39,6 +39,11 @@ export const metadata: Metadata = {
     title: 'Networker CRM',
     description: 'The CRM Georgian sales teams actually use.',
   },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
