@@ -13,7 +13,8 @@ export async function POST(req: NextRequest) {
   if (!form) return NextResponse.json({ error: 'Invalid form data' }, { status: 400 })
 
   const file = form.get('file') as File | null
-  const slot = (form.get('slot') as string | null) ?? 'unknown'
+  const rawSlot = (form.get('slot') as string | null) ?? 'unknown'
+  const slot = rawSlot.replace(/[^a-z0-9-]/gi, '-').slice(0, 64)
 
   if (!file) return NextResponse.json({ error: 'No file' }, { status: 400 })
   if (!ALLOWED_MIME.has(file.type)) {
@@ -23,7 +24,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'File too large. Maximum 5 MB.' }, { status: 400 })
   }
 
-  const ext = file.name.split('.').pop() ?? 'jpg'
+  const EXT_MAP: Record<string, string> = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/webp': 'webp',
+    'image/gif': 'gif',
+  }
+  const ext = EXT_MAP[file.type] ?? 'jpg'
   const path = `${slot}-${Date.now()}.${ext}`
   const buffer = Buffer.from(await file.arrayBuffer())
 

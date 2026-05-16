@@ -33,6 +33,6 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: 'Save failed' }, { status: 500 })
   }
 
-  revalidateTag('cms', { expire: 0 })
+  revalidateTag('cms', 'default')
   return NextResponse.json({ ok: true })
 }
