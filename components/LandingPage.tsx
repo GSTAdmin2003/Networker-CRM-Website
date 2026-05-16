@@ -11,6 +11,7 @@ import { Pricing } from '@/components/landing/Pricing'
 import { Team } from '@/components/landing/Team'
 import { Waitlist } from '@/components/landing/Waitlist'
 import { Footer } from '@/components/landing/Footer'
+import { ContactModal } from '@/components/landing/ContactModal'
 import type { CMSContent } from '@/lib/cms'
 
 const CMSLayer = dynamic(() => import('@/components/cms/CMSLayer'), { ssr: false })
@@ -23,6 +24,7 @@ interface Props {
 
 export default function LandingPage({ cmsContent, cmsMode, photos }: Props) {
   const [lang, setLang] = useState<Lang>('en')
+  const [contactOpen, setContactOpen] = useState(false)
 
   useEffect(() => {
     try {
@@ -50,7 +52,8 @@ export default function LandingPage({ cmsContent, cmsMode, photos }: Props) {
       <Pricing t={t} />
       <Team t={t} lang={lang} photos={photos} />
       <Waitlist t={t} lang={lang} />
-      <Footer t={t} />
+      <Footer t={t} onContactClick={() => setContactOpen(true)} />
+      <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} t={t} lang={lang} />
     </>
   )
 

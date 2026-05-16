@@ -1,6 +1,6 @@
-interface Props { t: (key: string) => string }
+interface Props { t: (key: string) => string; onContactClick: () => void }
 
-export function Footer({ t }: Props) {
+export function Footer({ t, onContactClick }: Props) {
   return (
     <footer>
       <div className="wrap footer-inner">
@@ -24,7 +24,7 @@ export function Footer({ t }: Props) {
           <a href="#solution" dangerouslySetInnerHTML={{ __html: t('nav_product') }} />
           <a href="#pricing" dangerouslySetInnerHTML={{ __html: t('nav_pricing') }} />
           <a href="#team" dangerouslySetInnerHTML={{ __html: t('nav_team') }} />
-          <a href="#waitlist" dangerouslySetInnerHTML={{ __html: t('footer_contact') }} />
+          <button onClick={onContactClick} dangerouslySetInnerHTML={{ __html: t('footer_contact') }} />
         </div>
       </div>
       <div className="wrap footer-copy" dangerouslySetInnerHTML={{ __html: t('footer_copy') }} />
