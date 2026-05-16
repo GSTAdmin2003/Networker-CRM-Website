@@ -1,4 +1,5 @@
 'use client'
+import { EditableText } from '@/components/cms/EditableText'
 import { EditableImage } from '@/components/cms/EditableImage'
 import { useCMS } from '@/components/cms/CMSContext'
 import { Lang } from '@/lib/i18n'
@@ -15,7 +16,7 @@ const MEMBERS = [
   { id: 'levan',  slot: 'team-levan',  initials: 'LK', nKey: 'team_n3', rKey: 'team_r3', bKey: 'team_b3' },
 ] as const
 
-export function Team({ t, photos }: Props) {
+export function Team({ t, lang, photos }: Props) {
   const { editMode } = useCMS()
   return (
     <section className="section-tight" id="team" style={{ background: 'white' }}>
@@ -23,10 +24,14 @@ export function Team({ t, photos }: Props) {
         <div style={{ maxWidth: 720 }}>
           <div className="section-eyebrow">
             <span className="section-eyebrow-num">05</span>
-            <span dangerouslySetInnerHTML={{ __html: t('team_eyebrow') }} />
+            <EditableText cmsKey={`team_eyebrow_${lang}`} html={t('team_eyebrow')} />
           </div>
-          <h2 className="section-title" dangerouslySetInnerHTML={{ __html: t('team_title') }} />
-          <p className="section-lede" dangerouslySetInnerHTML={{ __html: t('team_lede') }} />
+          <h2 className="section-title">
+            <EditableText cmsKey={`team_title_${lang}`} html={t('team_title')} />
+          </h2>
+          <p className="section-lede">
+            <EditableText cmsKey={`team_lede_${lang}`} html={t('team_lede')} />
+          </p>
         </div>
         <div className="team-grid">
           {MEMBERS.map((m, idx) => (
@@ -46,9 +51,15 @@ export function Team({ t, photos }: Props) {
                 />
               </div>
               <div className="team-content">
-                <div className="team-name" dangerouslySetInnerHTML={{ __html: t(m.nKey) }} />
-                <div className="team-role" dangerouslySetInnerHTML={{ __html: t(m.rKey) }} />
-                <div className="team-bio" dangerouslySetInnerHTML={{ __html: t(m.bKey) }} />
+                <div className="team-name">
+                  <EditableText cmsKey={`${m.nKey}_${lang}`} html={t(m.nKey)} />
+                </div>
+                <div className="team-role">
+                  <EditableText cmsKey={`${m.rKey}_${lang}`} html={t(m.rKey)} />
+                </div>
+                <div className="team-bio">
+                  <EditableText cmsKey={`${m.bKey}_${lang}`} html={t(m.bKey)} />
+                </div>
               </div>
             </article>
           ))}

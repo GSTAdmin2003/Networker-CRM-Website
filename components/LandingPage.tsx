@@ -48,8 +48,8 @@ export default function LandingPage({ cmsContent, cmsMode, photos }: Props) {
       <Hero t={t} lang={lang} editMode={cmsMode} />
       <Problem t={t} lang={lang} />
       <Features t={t} lang={lang} />
-      <Compare t={t} />
-      <Pricing t={t} />
+      <Compare t={t} lang={lang} />
+      <Pricing t={t} lang={lang} />
       <Team t={t} lang={lang} photos={photos} />
       <Waitlist t={t} lang={lang} />
       <Footer t={t} onContactClick={() => setContactOpen(true)} />

@@ -1,5 +1,6 @@
 'use client'
 import { useState, FormEvent } from 'react'
+import { EditableText } from '@/components/cms/EditableText'
 import { Lang } from '@/lib/i18n'
 
 interface Props { t: (key: string) => string; lang: Lang }
@@ -40,10 +41,10 @@ export function Waitlist({ t, lang }: Props) {
       <div className="wrap waitlist-inner">
         <div className="waitlist-eyebrow">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg>
-          <span dangerouslySetInnerHTML={{ __html: t('wl_eyebrow') }} />
+          <EditableText cmsKey={`wl_eyebrow_${lang}`} html={t('wl_eyebrow')} />
         </div>
-        <h2 dangerouslySetInnerHTML={{ __html: t('wl_title') }} />
-        <p className="waitlist-sub" dangerouslySetInnerHTML={{ __html: t('wl_sub') }} />
+        <h2><EditableText cmsKey={`wl_title_${lang}`} html={t('wl_title')} /></h2>
+        <p className="waitlist-sub"><EditableText cmsKey={`wl_sub_${lang}`} html={t('wl_sub')} /></p>
 
         {!submitted ? (
           <form className="waitlist-form" onSubmit={handleSubmit} noValidate>

@@ -1,18 +1,23 @@
+import { EditableText } from '@/components/cms/EditableText'
 import { Lang } from '@/lib/i18n'
 
 interface Props { t: (key: string) => string; lang: Lang }
 
-export function Features({ t }: Props) {
+export function Features({ t, lang }: Props) {
   return (
     <section className="section" id="solution">
       <div className="wrap">
         <div className="features-head">
           <div className="section-eyebrow">
             <span className="section-eyebrow-num">02</span>
-            <span dangerouslySetInnerHTML={{ __html: t('sol_eyebrow') }} />
+            <EditableText cmsKey={`sol_eyebrow_${lang}`} html={t('sol_eyebrow')} />
           </div>
-          <h2 className="section-title" dangerouslySetInnerHTML={{ __html: t('sol_title') }} />
-          <p className="section-lede" dangerouslySetInnerHTML={{ __html: t('sol_lede') }} />
+          <h2 className="section-title">
+            <EditableText cmsKey={`sol_title_${lang}`} html={t('sol_title')} />
+          </h2>
+          <p className="section-lede">
+            <EditableText cmsKey={`sol_lede_${lang}`} html={t('sol_lede')} />
+          </p>
         </div>
         <div className="features-grid">
           {/* Feature 1 — Telephony */}
@@ -30,8 +35,12 @@ export function Features({ t }: Props) {
                 <div className="vis-call-meta">REC · 00:02:14 · GE-STT</div>
               </div>
             </div>
-            <h3 className="feature-title" dangerouslySetInnerHTML={{ __html: t('feat_1_title') }} />
-            <p className="feature-desc" dangerouslySetInnerHTML={{ __html: t('feat_1_desc') }} />
+            <h3 className="feature-title">
+              <EditableText cmsKey={`feat_1_title_${lang}`} html={t('feat_1_title')} />
+            </h3>
+            <p className="feature-desc">
+              <EditableText cmsKey={`feat_1_desc_${lang}`} html={t('feat_1_desc')} />
+            </p>
           </article>
           {/* Feature 2 — AI */}
           <article className="feature">
@@ -46,8 +55,12 @@ export function Features({ t }: Props) {
                 </div>
               </div>
             </div>
-            <h3 className="feature-title" dangerouslySetInnerHTML={{ __html: t('feat_2_title') }} />
-            <p className="feature-desc" dangerouslySetInnerHTML={{ __html: t('feat_2_desc') }} />
+            <h3 className="feature-title">
+              <EditableText cmsKey={`feat_2_title_${lang}`} html={t('feat_2_title')} />
+            </h3>
+            <p className="feature-desc">
+              <EditableText cmsKey={`feat_2_desc_${lang}`} html={t('feat_2_desc')} />
+            </p>
           </article>
           {/* Feature 3 — WhatsApp */}
           <article className="feature">
@@ -59,8 +72,12 @@ export function Features({ t }: Props) {
                 <div className="vis-msg"><div className="vis-msg-avatar">NK</div><div className="vis-msg-bubble" dangerouslySetInnerHTML={{ __html: t('feat_3_msg3') }} /></div>
               </div>
             </div>
-            <h3 className="feature-title" dangerouslySetInnerHTML={{ __html: t('feat_3_title') }} />
-            <p className="feature-desc" dangerouslySetInnerHTML={{ __html: t('feat_3_desc') }} />
+            <h3 className="feature-title">
+              <EditableText cmsKey={`feat_3_title_${lang}`} html={t('feat_3_title')} />
+            </h3>
+            <p className="feature-desc">
+              <EditableText cmsKey={`feat_3_desc_${lang}`} html={t('feat_3_desc')} />
+            </p>
           </article>
           {/* Feature 4 — Pipeline */}
           <article className="feature">
@@ -84,8 +101,12 @@ export function Features({ t }: Props) {
                 ))}
               </div>
             </div>
-            <h3 className="feature-title" dangerouslySetInnerHTML={{ __html: t('feat_4_title') }} />
-            <p className="feature-desc" dangerouslySetInnerHTML={{ __html: t('feat_4_desc') }} />
+            <h3 className="feature-title">
+              <EditableText cmsKey={`feat_4_title_${lang}`} html={t('feat_4_title')} />
+            </h3>
+            <p className="feature-desc">
+              <EditableText cmsKey={`feat_4_desc_${lang}`} html={t('feat_4_desc')} />
+            </p>
           </article>
         </div>
       </div>

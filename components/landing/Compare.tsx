@@ -1,4 +1,7 @@
-interface Props { t: (key: string) => string }
+import { EditableText } from '@/components/cms/EditableText'
+import { Lang } from '@/lib/i18n'
+
+interface Props { t: (key: string) => string; lang: Lang }
 
 const CHECK = (
   <span className="check-icon">
@@ -11,7 +14,7 @@ const X = (
   </span>
 )
 
-export function Compare({ t }: Props) {
+export function Compare({ t, lang }: Props) {
   return (
     <section className="compare section" id="compare">
       <div className="wrap">
@@ -19,12 +22,14 @@ export function Compare({ t }: Props) {
           <div>
             <div className="section-eyebrow">
               <span className="section-eyebrow-num">03</span>
-              <span dangerouslySetInnerHTML={{ __html: t('cmp_eyebrow') }} />
+              <EditableText cmsKey={`cmp_eyebrow_${lang}`} html={t('cmp_eyebrow')} />
             </div>
-            <h2 className="section-title" dangerouslySetInnerHTML={{ __html: t('cmp_title') }} />
+            <h2 className="section-title">
+              <EditableText cmsKey={`cmp_title_${lang}`} html={t('cmp_title')} />
+            </h2>
           </div>
           <div className="compare-tag">
-            <span>$60</span>&nbsp;<span dangerouslySetInnerHTML={{ __html: t('cmp_tag') }} />
+            <span>$60</span>&nbsp;<EditableText cmsKey={`cmp_tag_${lang}`} html={t('cmp_tag')} />
           </div>
         </div>
         <div className="compare-table-wrap">
