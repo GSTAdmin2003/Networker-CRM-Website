@@ -43,7 +43,37 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${jakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'SoftwareApplication',
+              name: 'Networker CRM',
+              applicationCategory: 'BusinessApplication',
+              description: 'AI-powered CRM for Georgian sales teams. Built-in telephony, Georgian transcription, shared WhatsApp inbox.',
+              offers: {
+                '@type': 'Offer',
+                price: '60',
+                priceCurrency: 'USD',
+                priceSpecification: {
+                  '@type': 'UnitPriceSpecification',
+                  price: '60',
+                  priceCurrency: 'USD',
+                  unitText: 'MONTH',
+                },
+              },
+              publisher: {
+                '@type': 'Organization',
+                name: 'Networker',
+                url: 'https://networker.ge',
+              },
+            }),
+          }}
+        />
+        {children}
+      </body>
     </html>
   )
 }
