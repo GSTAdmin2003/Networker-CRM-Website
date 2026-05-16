@@ -8,16 +8,17 @@
 On mobile (especially iOS Safari):
 - The page overflows horizontally, allowing unintended horizontal scroll
 - iOS Safari zooms in when a form input is focused (inputs are `font-size: 14px`, below the 16px threshold)
-- No viewport meta tag exists to constrain scale
+- No viewport meta tag exists
 
 ## Goals
 
-1. Lock horizontal overflow at the HTML level
-2. Prevent pinch-to-zoom and tap-to-zoom via viewport meta
+1. Lock horizontal overflow at the HTML/body level
+2. Add a modern, accessibility-safe viewport meta tag
 3. Prevent iOS auto-zoom on input focus by fixing the root cause (input font-size < 16px)
 
 ## Out of Scope
 
+- `maximum-scale=1` / `user-scalable=no` — disables pinch-zoom, harms low-vision users, may fail accessibility audits, and is unnecessary once inputs are ≥ 16px
 - Any layout changes, refactoring, or new responsive breakpoints
 - JavaScript-based viewport manipulation
 
@@ -35,17 +36,14 @@ import type { Metadata, Viewport } from 'next'
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
 }
 ```
 
-Renders as:
-```html
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-```
+No `maximumScale` or `userScalable` — the font-size fix handles the iOS focus zoom; restricting user zoom is an accessibility anti-pattern.
 
-### 2. `styles/landing.css` — HTML overflow lock
+### 2. `styles/landing.css` — Overflow lock on html and body
+
+Apply to both elements. Some mobile browsers handle `html` overflow inconsistently; body-level coverage ensures it works across Safari, Chrome for iOS, and Firefox for Android.
 
 Change:
 ```css
@@ -53,8 +51,15 @@ html { scroll-behavior: smooth; }
 ```
 To:
 ```css
-html { scroll-behavior: smooth; overflow-x: hidden; }
+html,
+body {
+  scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 ```
+
+Note: `box-sizing: border-box` is already set globally on line 1 of `landing.css` — no change needed there. No `100vw` usage was found in the codebase (a common overflow source) — no change needed.
 
 ### 3. `styles/landing.css` — Input font-size fix
 
@@ -71,11 +76,12 @@ iOS Safari zooms in on focus for any input with `font-size < 16px`. The waitlist
 | File | Change |
 |------|--------|
 | `app/layout.tsx` | Add `viewport` export |
-| `styles/landing.css` | `html` overflow-x, `.wl-input`/`.wl-submit` font-size |
+| `styles/landing.css` | `html`/`body` overflow-x + max-width, `.wl-input`/`.wl-submit` font-size |
 
 ## Testing
 
 - [ ] iOS Safari: no zoom on waitlist input focus
 - [ ] iOS Safari: no horizontal scroll on any section
+- [ ] iOS Safari: dynamic toolbar collapse/expand does not reveal hidden overflow
 - [ ] Desktop: layout unchanged, no regression
 - [ ] Android Chrome: no horizontal scroll
