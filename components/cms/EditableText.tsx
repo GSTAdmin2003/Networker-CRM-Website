@@ -18,10 +18,10 @@ export function EditableText({ cmsKey, html, as: Tag = 'span', className }: Prop
   }, [html])
 
   if (!editMode) {
-    return createElement(Tag as any, { className, dangerouslySetInnerHTML: { __html: html } })
+    return createElement(Tag as keyof React.JSX.IntrinsicElements, { className, dangerouslySetInnerHTML: { __html: html } })
   }
 
-  return createElement(Tag as any, {
+  return createElement(Tag as keyof React.JSX.IntrinsicElements, {
     ref,
     'data-cms-key': cmsKey,
     className,
