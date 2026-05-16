@@ -1,5 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
+import { timingSafeEqual, createHash } from 'crypto'
+import { rateLimit } from '@/lib/rate-limit'
+
+function safeCompare(a: string, b: string): boolean {
+  const ba = createHash('sha256').update(a).digest()
+  const bb = createHash('sha256').update(b).digest()
+  return timingSafeEqual(ba, bb)
+}
 
 const COOKIE = 'cms_session'
 const MAX_AGE = 86400
@@ -15,9 +23,14 @@ function makeCookieOptions() {
 }
 
 export async function POST(req: NextRequest) {
-  const body = await req.json().catch(() => null)
-  const password = body?.password ?? ''
-  if (!process.env.CMS_SECRET || password !== process.env.CMS_SECRET) {
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+  if (!rateLimit(ip, 10, 15 * 60 * 1000)) {
+    return NextResponse.json({ error: 'Too many attempts' }, { status: 429 })
+  }
+
+  const body = await req.json().catch(() => null) as Record<string, unknown> | null
+  const password = typeof body?.password === 'string' ? body.password : ''
+  if (!process.env.CMS_SECRET || !safeCompare(password, process.env.CMS_SECRET)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
   const store = await cookies()

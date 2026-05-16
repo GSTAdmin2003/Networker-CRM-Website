@@ -8,10 +8,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
   }
 
-  const body = await req.json().catch(() => null)
-  const email = (body?.email ?? '').trim().toLowerCase()
-  const role = body?.role ?? ''
-  const lang = body?.lang ?? 'en'
+  const body = await req.json().catch(() => null) as Record<string, unknown> | null
+  const email = String(body?.email ?? '').trim().toLowerCase()
+  const role = String(body?.role ?? '')
+  const lang = String(body?.lang ?? 'en')
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
@@ -20,8 +20,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Role required' }, { status: 400 })
   }
 
+  const VALID_ROLES = new Set(['founder', 'sales-manager', 'rep', 'ops', 'investor', 'other'])
+  if (!VALID_ROLES.has(role)) {
+    return NextResponse.json({ error: 'Invalid role' }, { status: 400 })
+  }
+
+  const safeLang = lang === 'ka' ? 'ka' : 'en'
+
   const supabase = createServerClient()
-  const { error } = await supabase.from('waitlist_entries').insert({ email, role, lang })
+  const { error } = await supabase.from('waitlist_entries').insert({ email, role, lang: safeLang })
   if (error) {
     if (error.code === '23505') {
       return NextResponse.json({ ok: true })
