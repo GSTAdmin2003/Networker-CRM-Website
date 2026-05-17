@@ -7,6 +7,7 @@ export type Lead = {
   company_name: string | null
   company_id: string | null
   rep_name: string | null
+  rep_position: string | null
   rep_email: string | null
   industry: string | null
   industry_other: string | null
@@ -18,7 +19,7 @@ export type Lead = {
 type Filter = 'all' | 'new' | 'downloaded'
 
 function buildCsv(leads: Lead[]): string {
-  const header = 'phone,company_name,company_id,rep_name,rep_email,industry,industry_other,lang,submitted_at'
+  const header = 'phone,company_name,company_id,rep_name,rep_position,rep_email,industry,industry_other,lang,submitted_at'
   const escape = (v: string | null) => {
     if (v === null || v === '') return ''
     if (/[",\n\r]/.test(v)) return `"${v.replace(/"/g, '""')}"`
@@ -30,6 +31,7 @@ function buildCsv(leads: Lead[]): string {
       escape(l.company_name),
       escape(l.company_id),
       escape(l.rep_name),
+      escape(l.rep_position),
       escape(l.rep_email),
       escape(l.industry),
       escape(l.industry_other),
@@ -213,6 +215,7 @@ export function LeadsTable({ initialLeads }: { initialLeads: Lead[] }) {
               <th style={thStyle}>Company</th>
               <th style={thStyle}>ID</th>
               <th style={thStyle}>Rep name</th>
+              <th style={thStyle}>Position</th>
               <th style={thStyle}>Email</th>
               <th style={thStyle}>Industry</th>
               <th style={{ ...thStyle, width: 96 }}>Submitted</th>
@@ -222,7 +225,7 @@ export function LeadsTable({ initialLeads }: { initialLeads: Lead[] }) {
           <tbody>
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={9} style={{ padding: '48px 20px', textAlign: 'center', color: '#333', fontSize: 12 }}>
+                <td colSpan={10} style={{ padding: '48px 20px', textAlign: 'center', color: '#333', fontSize: 12 }}>
                   No leads
                 </td>
               </tr>
@@ -253,6 +256,7 @@ export function LeadsTable({ initialLeads }: { initialLeads: Lead[] }) {
                   <td style={tdStyle}>{cell(lead.company_name)}</td>
                   <td style={tdStyle}>{cell(lead.company_id)}</td>
                   <td style={tdStyle}>{cell(lead.rep_name)}</td>
+                  <td style={tdStyle}>{cell(lead.rep_position)}</td>
                   <td style={tdStyle}>{cell(lead.rep_email)}</td>
                   <td style={tdStyle}>{cell(formatIndustry(lead) || null)}</td>
                   <td style={{ ...tdStyle, color: '#444', fontSize: 10 }}>{lead.created_at.slice(0, 10)}</td>

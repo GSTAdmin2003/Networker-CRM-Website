@@ -15,7 +15,7 @@ export default async function LeadsPage() {
   const supabase = createServerClient()
   const { data, error } = await supabase
     .from('contact_messages')
-    .select('id, phone, company_name, company_id, rep_name, rep_email, industry, industry_other, lang, created_at, downloaded_at')
+    .select('id, phone, company_name, company_id, rep_name, rep_position, rep_email, industry, industry_other, lang, created_at, downloaded_at')
     .order('created_at', { ascending: false })
 
   if (error) {

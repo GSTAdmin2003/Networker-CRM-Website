@@ -2,20 +2,23 @@
 import { useState, useEffect, useRef, FormEvent } from 'react'
 import { Lang } from '@/lib/i18n'
 
-const INDUSTRIES = [
-  { value: 'construction',           label: 'Construction' },
-  { value: 'real_estate',            label: 'Real Estate' },
-  { value: 'accounting_finance',     label: 'Accounting & Finance' },
-  { value: 'retail',                 label: 'Retail' },
-  { value: 'marketing_advertising',  label: 'Marketing & Advertising' },
-  { value: 'wholesale_distribution', label: 'Wholesale & Distribution' },
-  { value: 'logistics',              label: 'Logistics' },
-  { value: 'it_technology',          label: 'IT & Technology' },
-  { value: 'manufacturing',          label: 'Manufacturing' },
-  { value: 'healthcare',             label: 'Healthcare' },
-  { value: 'legal',                  label: 'Legal' },
-  { value: 'other',                  label: 'Other' },
+const INDUSTRY_VALUES = [
+  'construction', 'real_estate', 'accounting_finance', 'retail',
+  'marketing_advertising', 'wholesale_distribution', 'logistics',
+  'it_technology', 'manufacturing', 'healthcare', 'legal', 'other',
 ]
+const INDUSTRY_LABELS: Record<Lang, string[]> = {
+  en: ['Construction', 'Real Estate', 'Accounting & Finance', 'Retail', 'Marketing & Advertising', 'Wholesale & Distribution', 'Logistics', 'IT & Technology', 'Manufacturing', 'Healthcare', 'Legal', 'Other'],
+  ka: ['მშენებლობა', 'უძრავი ქონება', 'ბუღალტერია & ფინანსები', 'საცალო ვაჭრობა', 'მარკეტინგი & რეკლამა', 'საბითუმო & დისტრიბუცია', 'ლოჯისტიკა', 'IT & ტექნოლოგია', 'წარმოება', 'ჯანდაცვა', 'იურიდიული', 'სხვა'],
+}
+
+const POSITION_VALUES = [
+  'founder_owner', 'director', 'sales_manager', 'sales_rep', 'accountant', 'operations', 'other',
+]
+const POSITION_LABELS: Record<Lang, string[]> = {
+  en: ['Founder / Owner', 'Director', 'Sales Manager', 'Sales Rep', 'Accountant', 'Operations', 'Other'],
+  ka: ['დამფუძნებელი / მფლობელი', 'დირექტორი', 'გაყიდვების მენეჯერი', 'გაყიდვების წარმომადგენელი', 'ბუღალტერი', 'ოპერაციები', 'სხვა'],
+}
 
 interface Props {
   onClose: () => void
@@ -27,6 +30,7 @@ export function ContactModal({ onClose, t, lang }: Props) {
   const [phase, setPhase] = useState<'1' | '2'>('1')
   const [contactId, setContactId] = useState('')
   const [industry, setIndustry] = useState('')
+  const [repPosition, setRepPosition] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
@@ -88,6 +92,7 @@ export function ContactModal({ onClose, t, lang }: Props) {
           company_name: getValue('company_name'),
           company_id:   getValue('company_id'),
           rep_name:     getValue('rep_name'),
+          rep_position: repPosition,
           rep_email:    getValue('rep_email'),
           industry,
           industry_other: industry === 'other' ? getValue('industry_other') : '',
@@ -104,6 +109,9 @@ export function ContactModal({ onClose, t, lang }: Props) {
       setLoading(false)
     }
   }
+
+  const industries = INDUSTRY_VALUES.map((v, i) => ({ value: v, label: INDUSTRY_LABELS[lang][i] }))
+  const positions = POSITION_VALUES.map((v, i) => ({ value: v, label: POSITION_LABELS[lang][i] }))
 
   return (
     <div
@@ -173,25 +181,15 @@ export function ContactModal({ onClose, t, lang }: Props) {
                 placeholder={t('contact_ph_company_id')}
                 maxLength={255}
               />
-              <input
-                type="text" name="rep_name"
-                className="contact-input"
-                placeholder={t('contact_ph_rep_name')}
-                maxLength={255}
-              />
-              <input
-                type="email" name="rep_email"
-                className="contact-input"
-                placeholder={t('contact_ph_rep_email')}
-              />
               <select
                 name="industry"
-                className="contact-input"
+                className="contact-input contact-select"
                 value={industry}
                 onChange={(e) => setIndustry(e.target.value)}
+                style={{ color: industry ? 'white' : 'rgba(255,255,255,0.32)' }}
               >
                 <option value="">{t('contact_ph_industry')}</option>
-                {INDUSTRIES.map(({ value, label }) => (
+                {industries.map(({ value, label }) => (
                   <option key={value} value={value}>{label}</option>
                 ))}
               </select>
@@ -203,6 +201,29 @@ export function ContactModal({ onClose, t, lang }: Props) {
                   maxLength={255}
                 />
               )}
+              <input
+                type="text" name="rep_name"
+                className="contact-input"
+                placeholder={t('contact_ph_rep_name')}
+                maxLength={255}
+              />
+              <select
+                name="rep_position"
+                className="contact-input contact-select"
+                value={repPosition}
+                onChange={(e) => setRepPosition(e.target.value)}
+                style={{ color: repPosition ? 'white' : 'rgba(255,255,255,0.32)' }}
+              >
+                <option value="">{t('contact_ph_rep_position')}</option>
+                {positions.map(({ value, label }) => (
+                  <option key={value} value={value}>{label}</option>
+                ))}
+              </select>
+              <input
+                type="email" name="rep_email"
+                className="contact-input"
+                placeholder={t('contact_ph_rep_email')}
+              />
               {error && <p className="contact-error">{error}</p>}
               <button className="contact-submit" type="submit" disabled={loading}>
                 {loading ? '…' : (

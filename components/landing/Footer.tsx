@@ -24,7 +24,7 @@ export function Footer({ t, onContactClick }: Props) {
           <a href="#solution" dangerouslySetInnerHTML={{ __html: t('nav_product') }} />
           <a href="#pricing" dangerouslySetInnerHTML={{ __html: t('nav_pricing') }} />
           <a href="#team" dangerouslySetInnerHTML={{ __html: t('nav_team') }} />
-          <button onClick={onContactClick} dangerouslySetInnerHTML={{ __html: t('footer_contact') }} />
+          <a href="#" onClick={(e) => { e.preventDefault(); onContactClick() }} dangerouslySetInnerHTML={{ __html: t('footer_contact') }} />
         </div>
       </div>
       <div className="wrap footer-copy" dangerouslySetInnerHTML={{ __html: t('footer_copy') }} />

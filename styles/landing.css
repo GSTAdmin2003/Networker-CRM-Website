@@ -1134,6 +1134,8 @@ footer {
   line-height: 1.55;
 }
 .contact-input::placeholder, .contact-textarea::placeholder { color: rgba(255,255,255,0.32); }
+.contact-select { appearance: none; -webkit-appearance: none; }
+.contact-select option { background: #0d1b2e; color: #e5e5e5; }
 .contact-input:focus, .contact-textarea:focus {
   border-color: var(--teal-400);
   background: rgba(255,255,255,0.08);

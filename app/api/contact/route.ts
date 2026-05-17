@@ -8,6 +8,10 @@ const ALLOWED_INDUSTRIES = [
   'it_technology', 'manufacturing', 'healthcare', 'legal', 'other',
 ]
 
+const ALLOWED_POSITIONS = [
+  'founder_owner', 'director', 'sales_manager', 'sales_rep', 'accountant', 'operations', 'other',
+]
+
 export async function POST(req: NextRequest) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
   if (!rateLimit(ip, 5, 15 * 60 * 1000)) {
@@ -60,6 +64,8 @@ export async function PATCH(req: NextRequest) {
   const company_name    = String(body?.company_name ?? '').trim().slice(0, 255) || null
   const company_id      = String(body?.company_id ?? '').trim().slice(0, 255) || null
   const rep_name        = String(body?.rep_name ?? '').trim().slice(0, 255) || null
+  const rawPosition     = String(body?.rep_position ?? '').trim()
+  const rep_position    = ALLOWED_POSITIONS.includes(rawPosition) ? rawPosition : null
   const rep_email_raw = String(body?.rep_email ?? '').trim().toLowerCase().slice(0, 255)
   const rep_email = rep_email_raw || null
   if (rep_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rep_email)) {
@@ -80,6 +86,7 @@ export async function PATCH(req: NextRequest) {
       company_name,
       company_id,
       rep_name,
+      rep_position,
       rep_email,
       industry,
       industry_other: industry === 'other' ? industry_other : null,
