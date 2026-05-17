@@ -1161,6 +1161,7 @@ footer {
   background: rgba(20,184,166,0.08);
   border: 1px solid rgba(20,184,166,0.25);
   border-radius: 10px;
+  margin-bottom: 8px;
 }
 .contact-success svg { color: var(--teal-400); flex-shrink: 0; width: 28px; height: 28px; margin-top: 2px; }
 .contact-success-title {
