@@ -31,6 +31,7 @@ export function ContactModal({ isOpen, onClose, t, lang }: Props) {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const panelRef = useRef<HTMLDivElement>(null)
+  const abortRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
     if (!isOpen) return
@@ -45,6 +46,7 @@ export function ContactModal({ isOpen, onClose, t, lang }: Props) {
     return () => {
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = ''
+      abortRef.current?.abort()
     }
   }, [isOpen, onClose])
 
@@ -55,16 +57,19 @@ export function ContactModal({ isOpen, onClose, t, lang }: Props) {
     const form = e.currentTarget
     const phone = (form.elements.namedItem('phone') as HTMLInputElement).value.trim()
     try {
+      abortRef.current = new AbortController()
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone, lang }),
+        signal: abortRef.current.signal,
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Something went wrong')
       setContactId(data.id)
       setPhase('2')
     } catch (err: unknown) {
+      if (err instanceof Error && err.name === 'AbortError') return
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
       setLoading(false)
@@ -73,12 +78,14 @@ export function ContactModal({ isOpen, onClose, t, lang }: Props) {
 
   async function handlePhase2(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    if (!contactId) { setError('Something went wrong'); return }
     setError('')
     setLoading(true)
     const form = e.currentTarget
     const getValue = (name: string) =>
       (form.elements.namedItem(name) as HTMLInputElement | null)?.value.trim() ?? ''
     try {
+      abortRef.current = new AbortController()
       const res = await fetch('/api/contact', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -91,11 +98,13 @@ export function ContactModal({ isOpen, onClose, t, lang }: Props) {
           industry,
           industry_other: industry === 'other' ? getValue('industry_other') : '',
         }),
+        signal: abortRef.current.signal,
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Something went wrong')
       onClose()
     } catch (err: unknown) {
+      if (err instanceof Error && err.name === 'AbortError') return
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
       setLoading(false)
