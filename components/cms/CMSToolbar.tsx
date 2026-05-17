@@ -17,6 +17,19 @@ export function CMSToolbar() {
         </div>
       )}
       <div style={{ display: 'flex', gap: 8 }}>
+        <a
+          href="/leads?edit=1"
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            height: 40, padding: '0 16px', background: '#111',
+            border: '1px solid #1e1e1e', borderRadius: 8,
+            fontSize: 13, fontWeight: 500, cursor: 'pointer', color: '#6ee7b7',
+            display: 'flex', alignItems: 'center', textDecoration: 'none',
+          }}
+        >
+          Leads ↗
+        </a>
         <button
           onClick={logout}
           style={{
