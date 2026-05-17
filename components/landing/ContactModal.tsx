@@ -170,6 +170,29 @@ export function ContactModal({ onClose, t, lang }: Props) {
             </div>
             <form className="contact-form" onSubmit={handlePhase2} noValidate>
               <input
+                type="text" name="rep_name"
+                className="contact-input"
+                placeholder={t('contact_ph_rep_name')}
+                maxLength={255}
+              />
+              <select
+                name="rep_position"
+                className="contact-input contact-select"
+                value={repPosition}
+                onChange={(e) => setRepPosition(e.target.value)}
+                style={{ color: repPosition ? 'white' : 'rgba(255,255,255,0.32)' }}
+              >
+                <option value="">{t('contact_ph_rep_position')}</option>
+                {positions.map(({ value, label }) => (
+                  <option key={value} value={value}>{label}</option>
+                ))}
+              </select>
+              <input
+                type="email" name="rep_email"
+                className="contact-input"
+                placeholder={t('contact_ph_rep_email')}
+              />
+              <input
                 type="text" name="company_name"
                 className="contact-input"
                 placeholder={t('contact_ph_company_name')}
@@ -201,29 +224,6 @@ export function ContactModal({ onClose, t, lang }: Props) {
                   maxLength={255}
                 />
               )}
-              <input
-                type="text" name="rep_name"
-                className="contact-input"
-                placeholder={t('contact_ph_rep_name')}
-                maxLength={255}
-              />
-              <select
-                name="rep_position"
-                className="contact-input contact-select"
-                value={repPosition}
-                onChange={(e) => setRepPosition(e.target.value)}
-                style={{ color: repPosition ? 'white' : 'rgba(255,255,255,0.32)' }}
-              >
-                <option value="">{t('contact_ph_rep_position')}</option>
-                {positions.map(({ value, label }) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
-              </select>
-              <input
-                type="email" name="rep_email"
-                className="contact-input"
-                placeholder={t('contact_ph_rep_email')}
-              />
               {error && <p className="contact-error">{error}</p>}
               <button className="contact-submit" type="submit" disabled={loading}>
                 {loading ? '…' : (
