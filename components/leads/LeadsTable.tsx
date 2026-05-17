@@ -21,7 +21,7 @@ function buildCsv(leads: Lead[]): string {
   const header = 'phone,company_name,company_id,rep_name,rep_email,industry,industry_other,lang,submitted_at'
   const escape = (v: string | null) => {
     if (v === null || v === '') return ''
-    if (/[",\n]/.test(v)) return `"${v.replace(/"/g, '""')}"`
+    if (/[",\n\r]/.test(v)) return `"${v.replace(/"/g, '""')}"`
     return v
   }
   const rows = leads.map((l) =>
@@ -37,12 +37,12 @@ function buildCsv(leads: Lead[]): string {
       escape(l.created_at.slice(0, 10)),
     ].join(',')
   )
-  return [header, ...rows].join('\n')
+  return [header, ...rows].join('\r\n')
 }
 
 function triggerDownload(csv: string) {
   const date = new Date().toISOString().slice(0, 10)
-  const blob = new Blob([csv], { type: 'text/csv' })
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
@@ -59,11 +59,20 @@ function formatIndustry(lead: Lead): string {
   return lead.industry.replace(/_/g, ' ')
 }
 
+function cell(v: string | null) {
+  return v ? (
+    <span>{v}</span>
+  ) : (
+    <span style={{ color: '#2a2a2a', fontStyle: 'italic', fontSize: 10 }}>—</span>
+  )
+}
+
 export function LeadsTable({ initialLeads }: { initialLeads: Lead[] }) {
   const [leads, setLeads] = useState<Lead[]>(initialLeads)
   const [filter, setFilter] = useState<Filter>('all')
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [downloading, setDownloading] = useState(false)
+  const [patchError, setPatchError] = useState<string | null>(null)
 
   const totalAll = leads.length
   const totalNew = leads.filter((l) => l.downloaded_at === null).length
@@ -102,7 +111,8 @@ export function LeadsTable({ initialLeads }: { initialLeads: Lead[] }) {
 
   async function handleDownload() {
     if (!downloadEnabled || downloading) return
-    const selectedLeads = leads.filter((l) => selected.has(l.id))
+    const selectedIds = new Set(selected)
+    const selectedLeads = leads.filter((l) => selectedIds.has(l.id))
     triggerDownload(buildCsv(selectedLeads))
     setDownloading(true)
     try {
@@ -112,27 +122,23 @@ export function LeadsTable({ initialLeads }: { initialLeads: Lead[] }) {
         body: JSON.stringify({ ids: selectedLeads.map((l) => l.id) }),
       })
       if (res.ok) {
+        setPatchError(null)
         const now = new Date().toISOString()
         setLeads((prev) =>
           prev.map((l) =>
-            selected.has(l.id) && l.downloaded_at === null
+            selectedIds.has(l.id) && l.downloaded_at === null
               ? { ...l, downloaded_at: now }
               : l
           )
         )
         setSelected(new Set())
+      } else {
+        setPatchError('Failed to record download — please reload and try again.')
       }
     } finally {
       setDownloading(false)
     }
   }
-
-  const cell = (v: string | null) =>
-    v ? (
-      <span>{v}</span>
-    ) : (
-      <span style={{ color: '#2a2a2a', fontStyle: 'italic', fontSize: 10 }}>—</span>
-    )
 
   return (
     <div style={{ background: '#0d0d0d', minHeight: '100vh', color: '#e5e5e5', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
@@ -166,6 +172,11 @@ export function LeadsTable({ initialLeads }: { initialLeads: Lead[] }) {
           </button>
         </div>
       </div>
+      {patchError && (
+        <div style={{ fontSize: 10, color: '#f87171', marginTop: 4, textAlign: 'right', paddingRight: 20 }}>
+          {patchError}
+        </div>
+      )}
 
       {/* Filter tabs */}
       <div style={{ padding: '12px 20px', borderBottom: '1px solid #1a1a1a', display: 'flex', gap: 6 }}>
