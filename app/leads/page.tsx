@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase-server'
 import { LeadsTable, type Lead } from '@/components/leads/LeadsTable'
 
+export const dynamic = 'force-dynamic'
+
 export default async function LeadsPage() {
   const store = await cookies()
   if (store.get('cms_session')?.value !== '1') {
