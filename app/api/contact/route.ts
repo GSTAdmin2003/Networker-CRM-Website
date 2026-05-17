@@ -60,11 +60,11 @@ export async function PATCH(req: NextRequest) {
   const company_name    = String(body?.company_name ?? '').trim().slice(0, 255) || null
   const company_id      = String(body?.company_id ?? '').trim().slice(0, 255) || null
   const rep_name        = String(body?.rep_name ?? '').trim().slice(0, 255) || null
-  const rep_email       = (() => {
-    const v = String(body?.rep_email ?? '').trim().toLowerCase().slice(0, 255)
-    if (!v) return null
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? v : null
-  })()
+  const rep_email_raw = String(body?.rep_email ?? '').trim().toLowerCase().slice(0, 255)
+  const rep_email = rep_email_raw || null
+  if (rep_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rep_email)) {
+    return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
+  }
   const rawIndustry     = String(body?.industry ?? '').trim()
   const industry        = ALLOWED_INDUSTRIES.includes(rawIndustry) ? rawIndustry : null
   const industry_other  = String(body?.industry_other ?? '').trim().slice(0, 255) || null
