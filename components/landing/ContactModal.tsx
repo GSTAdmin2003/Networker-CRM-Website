@@ -18,13 +18,12 @@ const INDUSTRIES = [
 ]
 
 interface Props {
-  isOpen: boolean
   onClose: () => void
   t: (key: string) => string
   lang: Lang
 }
 
-export function ContactModal({ isOpen, onClose, t, lang }: Props) {
+export function ContactModal({ onClose, t, lang }: Props) {
   const [phase, setPhase] = useState<'1' | '2'>('1')
   const [contactId, setContactId] = useState('')
   const [industry, setIndustry] = useState('')
@@ -34,11 +33,6 @@ export function ContactModal({ isOpen, onClose, t, lang }: Props) {
   const abortRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
-    if (!isOpen) return
-    setPhase('1')
-    setContactId('')
-    setIndustry('')
-    setError('')
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
     document.addEventListener('keydown', onKey)
     document.body.style.overflow = 'hidden'
@@ -48,7 +42,7 @@ export function ContactModal({ isOpen, onClose, t, lang }: Props) {
       document.body.style.overflow = ''
       abortRef.current?.abort()
     }
-  }, [isOpen, onClose])
+  }, [onClose])
 
   async function handlePhase1(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -110,8 +104,6 @@ export function ContactModal({ isOpen, onClose, t, lang }: Props) {
       setLoading(false)
     }
   }
-
-  if (!isOpen) return null
 
   return (
     <div

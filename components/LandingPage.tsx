@@ -1,6 +1,6 @@
 'use client'
 import dynamic from 'next/dynamic'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { I18N, makeT, Lang } from '@/lib/i18n'
 import { Nav } from '@/components/landing/Nav'
 import { Hero } from '@/components/landing/Hero'
@@ -23,16 +23,15 @@ interface Props {
 }
 
 export default function LandingPage({ cmsContent, cmsMode, photos }: Props) {
-  const [lang, setLang] = useState<Lang>('en')
-  const [contactOpen, setContactOpen] = useState(false)
-
-  useEffect(() => {
+  const [lang, setLang] = useState<Lang>(() => {
     try {
       const saved = localStorage.getItem('nwk-lang') as Lang | null
-      if (saved && I18N[saved]) setLang(saved)
-      else if (navigator.language.toLowerCase().startsWith('ka')) setLang('ka')
+      if (saved && I18N[saved]) return saved
+      if (navigator.language.toLowerCase().startsWith('ka')) return 'ka'
     } catch {}
-  }, [])
+    return 'en'
+  })
+  const [contactOpen, setContactOpen] = useState(false)
 
   function handleLangChange(l: Lang) {
     setLang(l)
@@ -53,7 +52,7 @@ export default function LandingPage({ cmsContent, cmsMode, photos }: Props) {
       <Team t={t} lang={lang} photos={photos} />
       <Waitlist t={t} lang={lang} />
       <Footer t={t} onContactClick={() => setContactOpen(true)} />
-      <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} t={t} lang={lang} />
+      {contactOpen && <ContactModal onClose={() => setContactOpen(false)} t={t} lang={lang} />}
     </>
   )
 
