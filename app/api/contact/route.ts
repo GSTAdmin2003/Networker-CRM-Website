@@ -40,6 +40,11 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+  if (!rateLimit(ip, 20, 15 * 60 * 1000)) {
+    return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+  }
+
   const body = await req.json().catch(() => null) as Record<string, unknown> | null
   const id = String(body?.id ?? '').trim()
 
@@ -47,10 +52,19 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: 'Missing id' }, { status: 400 })
   }
 
+  const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+  if (!UUID_RE.test(id)) {
+    return NextResponse.json({ error: 'Invalid id' }, { status: 400 })
+  }
+
   const company_name    = String(body?.company_name ?? '').trim().slice(0, 255) || null
   const company_id      = String(body?.company_id ?? '').trim().slice(0, 255) || null
   const rep_name        = String(body?.rep_name ?? '').trim().slice(0, 255) || null
-  const rep_email       = String(body?.rep_email ?? '').trim().toLowerCase().slice(0, 255) || null
+  const rep_email       = (() => {
+    const v = String(body?.rep_email ?? '').trim().toLowerCase().slice(0, 255)
+    if (!v) return null
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? v : null
+  })()
   const rawIndustry     = String(body?.industry ?? '').trim()
   const industry        = ALLOWED_INDUSTRIES.includes(rawIndustry) ? rawIndustry : null
   const industry_other  = String(body?.industry_other ?? '').trim().slice(0, 255) || null
@@ -60,7 +74,7 @@ export async function PATCH(req: NextRequest) {
   }
 
   const supabase = createServerClient()
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from('contact_messages')
     .update({
       company_name,
@@ -71,10 +85,15 @@ export async function PATCH(req: NextRequest) {
       industry_other: industry === 'other' ? industry_other : null,
     })
     .eq('id', id)
+    .select('id')
+    .single()
 
   if (error) {
     console.error('contact update:', error)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
+  }
+  if (!data) {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 })
   }
 
   return NextResponse.json({ ok: true })
