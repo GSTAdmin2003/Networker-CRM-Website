@@ -3,14 +3,14 @@ import { useState } from 'react'
 
 export type Lead = {
   id: string
-  phone: string
+  phone: string | null
   company_name: string | null
   company_id: string | null
   rep_name: string | null
   rep_email: string | null
   industry: string | null
   industry_other: string | null
-  lang: string
+  lang: string | null
   created_at: string
   downloaded_at: string | null
 }
@@ -135,6 +135,8 @@ export function LeadsTable({ initialLeads }: { initialLeads: Lead[] }) {
       } else {
         setPatchError('Failed to record download — please reload and try again.')
       }
+    } catch {
+      setPatchError('Network error — please check your connection and try again.')
     } finally {
       setDownloading(false)
     }
@@ -247,7 +249,7 @@ export function LeadsTable({ initialLeads }: { initialLeads: Lead[] }) {
                       style={{ accentColor: '#6ee7b7' }}
                     />
                   </td>
-                  <td style={{ ...tdStyle, color: '#e5e5e5', fontWeight: 500 }}>{lead.phone}</td>
+                  <td style={{ ...tdStyle, color: '#e5e5e5', fontWeight: 500 }}>{cell(lead.phone)}</td>
                   <td style={tdStyle}>{cell(lead.company_name)}</td>
                   <td style={tdStyle}>{cell(lead.company_id)}</td>
                   <td style={tdStyle}>{cell(lead.rep_name)}</td>

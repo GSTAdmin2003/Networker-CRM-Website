@@ -4,6 +4,7 @@ import { createServerClient } from '@/lib/supabase-server'
 import { LeadsTable, type Lead } from '@/components/leads/LeadsTable'
 
 export const dynamic = 'force-dynamic'
+export const metadata = { robots: { index: false, follow: false } }
 
 export default async function LeadsPage() {
   const store = await cookies()
