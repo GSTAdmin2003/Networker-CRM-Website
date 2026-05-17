@@ -1,0 +1,119 @@
+<style>
+  .vp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 20px 0; }
+
+  .vp-frame { border-radius: 10px; overflow: hidden; border: 2px solid #E5E7EB; }
+  .vp-label { background: #F3F4F6; padding: 8px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #6B7280; border-bottom: 1px solid #E5E7EB; }
+  .vp-sections { display: flex; flex-direction: column; }
+
+  .vp-section { display: flex; align-items: center; justify-content: space-between; padding: 0 10px; font-size: 10px; font-weight: 600; white-space: nowrap; }
+  .vp-section.light { background: #FBFCFD; color: #374151; border-bottom: 1px solid #f0f0f0; }
+  .vp-section.dark { background: #0F1C32; color: rgba(255,255,255,0.8); border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .vp-section.neutral { background: #F8FAFB; color: #374151; border-bottom: 1px solid #f0f0f0; }
+  .vp-pct { font-size: 9px; opacity: 0.6; font-weight: 500; }
+
+  .ratio-bar { height: 16px; display: flex; border-radius: 0 0 8px 8px; overflow: hidden; }
+  .rb-light { background: #FBFCFD; border-top: 2px solid #E5E7EB; }
+  .rb-dark { background: #0F1C32; }
+  .rb-teal { background: #14B8A6; }
+  .ratio-label { display: flex; gap: 0; font-size: 9px; }
+  .rl { padding: 2px 6px; font-weight: 700; }
+
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; }
+  .badge-ok { background: #CCFBF1; color: #0D6D68; }
+  .badge-warn { background: #FEF3C7; color: #92400E; }
+  .badge-bad { background: #FEE2E2; color: #991B1B; }
+
+  .insight { background: #F8FAFB; border: 1px solid #E5E7EB; border-radius: 8px; padding: 14px 16px; margin-top: 20px; }
+  .insight h3 { font-size: 13px; font-weight: 700; color: #0F1C32; margin-bottom: 6px; }
+  .insight p { font-size: 12px; color: #6B7280; line-height: 1.5; margin: 0; }
+</style>
+
+<h2>How the ratio shifts across viewports</h2>
+<p class="subtitle">The Problem and Waitlist sections are both navy. As viewport narrows, their stacked content makes them <em>taller relative to the page</em> — pushing the dark color past 30%.</p>
+
+<div class="vp-grid">
+
+  <!-- Desktop -->
+  <div>
+    <div class="vp-frame">
+      <div class="vp-label">Desktop · 1280px</div>
+      <div class="vp-sections">
+        <div class="vp-section light" style="height:20px"><span>Nav</span><span class="vp-pct">~3%</span></div>
+        <div class="vp-section light" style="height:44px"><span>Hero</span><span class="vp-pct">~18%</span></div>
+        <div class="vp-section dark" style="height:36px"><span>Problem</span><span class="vp-pct">~15%</span></div>
+        <div class="vp-section light" style="height:36px"><span>Features</span><span class="vp-pct">~15%</span></div>
+        <div class="vp-section light" style="height:24px"><span>Compare</span><span class="vp-pct">~10%</span></div>
+        <div class="vp-section neutral" style="height:20px"><span>Pricing</span><span class="vp-pct">~8%</span></div>
+        <div class="vp-section light" style="height:24px"><span>Team</span><span class="vp-pct">~10%</span></div>
+        <div class="vp-section dark" style="height:24px"><span>Waitlist</span><span class="vp-pct">~10%</span></div>
+        <div class="vp-section light" style="height:16px"><span>Footer</span><span class="vp-pct">~7%</span></div>
+      </div>
+      <div class="ratio-bar">
+        <div class="rb-light" style="flex:63"></div>
+        <div class="rb-dark" style="flex:27"></div>
+        <div class="rb-teal" style="flex:10"></div>
+      </div>
+    </div>
+    <div style="margin-top:8px;text-align:center">
+      <span class="badge badge-ok">63·27·10 ✓</span>
+    </div>
+  </div>
+
+  <!-- Tablet -->
+  <div>
+    <div class="vp-frame">
+      <div class="vp-label">Tablet · 820px</div>
+      <div class="vp-sections">
+        <div class="vp-section light" style="height:18px"><span>Nav</span><span class="vp-pct">~3%</span></div>
+        <div class="vp-section light" style="height:40px"><span>Hero</span><span class="vp-pct">~15%</span></div>
+        <div class="vp-section dark" style="height:48px"><span>Problem ↕ collapses</span><span class="vp-pct">~18%</span></div>
+        <div class="vp-section light" style="height:40px"><span>Features</span><span class="vp-pct">~15%</span></div>
+        <div class="vp-section light" style="height:28px"><span>Compare</span><span class="vp-pct">~10%</span></div>
+        <div class="vp-section neutral" style="height:22px"><span>Pricing</span><span class="vp-pct">~8%</span></div>
+        <div class="vp-section light" style="height:28px"><span>Team</span><span class="vp-pct">~10%</span></div>
+        <div class="vp-section dark" style="height:28px"><span>Waitlist</span><span class="vp-pct">~10%</span></div>
+        <div class="vp-section light" style="height:18px"><span>Footer</span><span class="vp-pct">~7%</span></div>
+      </div>
+      <div class="ratio-bar">
+        <div class="rb-light" style="flex:58"></div>
+        <div class="rb-dark" style="flex:32"></div>
+        <div class="rb-teal" style="flex:10"></div>
+      </div>
+    </div>
+    <div style="margin-top:8px;text-align:center">
+      <span class="badge badge-warn">58·32·10 ≈</span>
+    </div>
+  </div>
+
+  <!-- Mobile -->
+  <div>
+    <div class="vp-frame">
+      <div class="vp-label">Mobile · 390px</div>
+      <div class="vp-sections">
+        <div class="vp-section light" style="height:16px"><span>Nav</span><span class="vp-pct">~2%</span></div>
+        <div class="vp-section light" style="height:36px"><span>Hero</span><span class="vp-pct">~12%</span></div>
+        <div class="vp-section dark" style="height:62px"><span>Problem ↕↕ tall</span><span class="vp-pct">~22%</span></div>
+        <div class="vp-section light" style="height:42px"><span>Features</span><span class="vp-pct">~14%</span></div>
+        <div class="vp-section light" style="height:30px"><span>Compare</span><span class="vp-pct">~10%</span></div>
+        <div class="vp-section neutral" style="height:24px"><span>Pricing</span><span class="vp-pct">~8%</span></div>
+        <div class="vp-section light" style="height:36px"><span>Team</span><span class="vp-pct">~12%</span></div>
+        <div class="vp-section dark" style="height:36px"><span>Waitlist</span><span class="vp-pct">~12%</span></div>
+        <div class="vp-section light" style="height:18px"><span>Footer</span><span class="vp-pct">~6%</span></div>
+      </div>
+      <div class="ratio-bar">
+        <div class="rb-light" style="flex:56"></div>
+        <div class="rb-dark" style="flex:34"></div>
+        <div class="rb-teal" style="flex:10"></div>
+      </div>
+    </div>
+    <div style="margin-top:8px;text-align:center">
+      <span class="badge badge-bad">56·34·10 ✗</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="insight">
+  <h3>The core problem</h3>
+  <p>The Problem section is a 2-column grid on desktop but collapses to 1-column on mobile — its content stacks vertically, growing its height by ~40%. Combined with the Waitlist section, navy exceeds 30% at smaller viewports. The fix: control how much vertical space dark sections can occupy at each breakpoint using <code>max-height</code>, <code>min-height: Xsvh</code>, or tighter padding at mobile.</p>
+</div>

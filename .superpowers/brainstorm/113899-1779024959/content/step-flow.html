@@ -1,0 +1,76 @@
+<h2>How should the two-step form flow?</h2>
+<p class="subtitle">Phase 1 captures the phone number. Phase 2 is optional company details. Pick the transition style that feels right.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a0a;padding:20px;border-radius:8px;font-family:monospace;font-size:12px;">
+      <div style="background:#111;border:1px solid #222;border-radius:8px;padding:16px;max-width:280px;margin:0 auto;">
+        <div style="font-size:10px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em;">Step 1 of 2</div>
+        <div style="height:6px;background:#222;border-radius:3px;margin-bottom:14px;overflow:hidden;">
+          <div style="height:100%;width:50%;background:#6ee7b7;border-radius:3px;"></div>
+        </div>
+        <div style="font-size:13px;color:#fff;margin-bottom:4px;">Phone number</div>
+        <div style="font-size:10px;color:#666;margin-bottom:10px;">We'll reach out to this number</div>
+        <input class="mock-input" placeholder="+995 5XX XXX XXX" style="width:100%;box-sizing:border-box;margin-bottom:10px;" readonly>
+        <button class="mock-button" style="width:100%;display:flex;justify-content:space-between;align-items:center;">
+          <span>Next →</span><span style="font-size:10px;color:#888;">Add details</span>
+        </button>
+        <div style="text-align:center;margin-top:8px;font-size:10px;color:#555;">or skip — just submit</div>
+      </div>
+      <div style="font-size:10px;color:#444;text-align:center;margin-top:10px;">→ slides to Step 2 on click</div>
+    </div>
+    <div class="card-body">
+      <h3>A — Slide steps</h3>
+      <p>Progress bar at top. "Next" slides to step 2. A "skip / just submit" link below sends with only the phone. Step 2 has a "Back" link and a "Submit" button.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a0a;padding:20px;border-radius:8px;font-family:monospace;font-size:12px;">
+      <div style="background:#111;border:1px solid #222;border-radius:8px;padding:16px;max-width:280px;margin:0 auto;">
+        <input class="mock-input" placeholder="+995 5XX XXX XXX" style="width:100%;box-sizing:border-box;margin-bottom:10px;" readonly>
+        <button class="mock-button" style="width:100%;">Send →</button>
+        <div style="margin-top:12px;border-top:1px solid #1a1a1a;padding-top:12px;">
+          <div style="font-size:10px;color:#555;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+            <span style="flex:1;height:1px;background:#1a1a1a;"></span>
+            optional details
+            <span style="flex:1;height:1px;background:#1a1a1a;"></span>
+          </div>
+          <input class="mock-input" placeholder="Company name" style="width:100%;box-sizing:border-box;margin-bottom:6px;" readonly>
+          <input class="mock-input" placeholder="Industry" style="width:100%;box-sizing:border-box;margin-bottom:6px;" readonly>
+          <input class="mock-input" placeholder="Your name" style="width:100%;box-sizing:border-box;" readonly>
+        </div>
+      </div>
+      <div style="font-size:10px;color:#444;text-align:center;margin-top:10px;">all fields visible at once</div>
+    </div>
+    <div class="card-body">
+      <h3>B — Single scroll</h3>
+      <p>Phone at top with Send button. Below a divider: optional fields visible but clearly secondary. No steps — user decides how much to fill in. Simpler but less guided.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a0a;padding:20px;border-radius:8px;font-family:monospace;font-size:12px;">
+      <div style="background:#111;border:1px solid #222;border-radius:8px;padding:16px;max-width:280px;margin:0 auto;">
+        <input class="mock-input" placeholder="+995 5XX XXX XXX" style="width:100%;box-sizing:border-box;margin-bottom:10px;" readonly>
+        <button class="mock-button" style="width:100%;margin-bottom:10px;">Submit →</button>
+        <div style="background:#0d1a14;border:1px solid #1a3a26;border-radius:6px;padding:12px;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+            <div style="width:16px;height:16px;border-radius:50%;background:#6ee7b7;display:flex;align-items:center;justify-content:center;font-size:9px;color:#000;">✓</div>
+            <div style="font-size:11px;color:#6ee7b7;font-weight:600;">Sent! Help us reach you faster.</div>
+          </div>
+          <div style="font-size:10px;color:#555;margin-bottom:8px;">Optionally add your company info — takes 30 seconds.</div>
+          <input class="mock-input" placeholder="Company name" style="width:100%;box-sizing:border-box;margin-bottom:6px;opacity:.7;" readonly>
+          <button class="mock-button" style="width:100%;font-size:10px;">Save details</button>
+        </div>
+      </div>
+      <div style="font-size:10px;color:#444;text-align:center;margin-top:10px;">success state expands into phase 2</div>
+    </div>
+    <div class="card-body">
+      <h3>C — Submit then expand</h3>
+      <p>Phone submits immediately. Success message appears, then expands into the optional details form inline. The lead is already saved before they decide whether to add more.</p>
+    </div>
+  </div>
+
+</div>

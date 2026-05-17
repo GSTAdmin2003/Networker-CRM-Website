@@ -1,0 +1,75 @@
+<style>
+  .ratio-demo { display: flex; gap: 0; border-radius: 12px; overflow: hidden; height: 80px; margin: 20px 0; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+  .ratio-seg { display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: white; transition: flex 0.4s ease; }
+  .ratio-seg.dominant { background: #FBFCFD; color: #374151; border: 1px solid #E5E7EB; }
+  .ratio-seg.secondary { background: #0F1C32; }
+  .ratio-seg.accent { background: #14B8A6; }
+
+  .palette-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  .swatch { width: 48px; height: 48px; border-radius: 8px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; font-size: 8px; font-weight: 600; color: white; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+  .swatch.light { color: #374151; border: 1px solid #E5E7EB; }
+
+  .role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 0; }
+  .role-card { border-radius: 10px; padding: 16px; border: 2px solid transparent; }
+  .role-card.dominant-card { background: #f8f9fb; border-color: #E5E7EB; }
+  .role-card.secondary-card { background: #0F1C32; color: white; }
+  .role-card.accent-card { background: #0D9488; color: white; }
+  .role-pct { font-size: 32px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .role-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; }
+  .role-desc { font-size: 12px; line-height: 1.5; opacity: 0.85; }
+  .role-swatches { display: flex; gap: 4px; margin-top: 10px; }
+  .mini-swatch { width: 20px; height: 20px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); }
+</style>
+
+<h2>The 6·3·1 Color Ratio</h2>
+<p class="subtitle">Your site already has the right colors — this rule defines how much of each to use.</p>
+
+<div class="section">
+  <div class="label">Visual proportion</div>
+  <div class="ratio-demo">
+    <div class="ratio-seg dominant" style="flex: 6">60%&nbsp;&nbsp;Dominant</div>
+    <div class="ratio-seg secondary" style="flex: 3">30%&nbsp;Secondary</div>
+    <div class="ratio-seg accent" style="flex: 1">10%</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="label">Mapped to your palette</div>
+  <div class="role-grid">
+    <div class="role-card dominant-card">
+      <div class="role-pct" style="color:#0F1C32">60%</div>
+      <div class="role-label" style="color:#6B7280">Dominant · Background</div>
+      <div class="role-desc" style="color:#374151">Paper, white, and neutral ink tones. Large surfaces — page background, cards, sections.</div>
+      <div class="role-swatches">
+        <div class="mini-swatch" style="background:#FBFCFD;border-color:#E5E7EB"></div>
+        <div class="mini-swatch" style="background:#F8FAFB;border-color:#E5E7EB"></div>
+        <div class="mini-swatch" style="background:#F3F4F6;border-color:#E5E7EB"></div>
+        <div class="mini-swatch" style="background:#E5E7EB;border-color:#D1D5DB"></div>
+      </div>
+    </div>
+    <div class="role-card secondary-card">
+      <div class="role-pct">30%</div>
+      <div class="role-label">Secondary · Depth</div>
+      <div class="role-desc">Navy blues for headings, dark sections (Problem, Waitlist), nav, and key UI elements.</div>
+      <div class="role-swatches">
+        <div class="mini-swatch" style="background:#0F1C32"></div>
+        <div class="mini-swatch" style="background:#132237"></div>
+        <div class="mini-swatch" style="background:#1E3A5F"></div>
+        <div class="mini-swatch" style="background:#2A5298"></div>
+      </div>
+    </div>
+    <div class="role-card accent-card">
+      <div class="role-pct">10%</div>
+      <div class="role-label">Accent · Action</div>
+      <div class="role-desc">Teal only for CTAs, highlights, icons, and interactive states. Used sparingly.</div>
+      <div class="role-swatches">
+        <div class="mini-swatch" style="background:#0D6D68"></div>
+        <div class="mini-swatch" style="background:#14B8A6"></div>
+        <div class="mini-swatch" style="background:#2DD4BF"></div>
+        <div class="mini-swatch" style="background:#CCFBF1;border-color:rgba(0,0,0,0.1)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:8px">The main question: do you want to <strong>enforce this via semantic CSS tokens</strong> (rename variables to dominant/secondary/accent), or <strong>audit the visual layout</strong> and adjust where the ratio is off?</p>

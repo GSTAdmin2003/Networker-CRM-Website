@@ -1,0 +1,91 @@
+<h2>Where should the leads page live?</h2>
+<p class="subtitle">It's only accessible in edit=1 mode. Pick the approach that fits how you'd actually use it.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a0a;padding:16px;border-radius:8px;font-size:11px;font-family:monospace;">
+      <div style="background:#111;border:1px solid #1e1e1e;border-radius:8px;overflow:hidden;">
+        <div style="background:#0d0d0d;border-bottom:1px solid #1a1a1a;padding:8px 12px;display:flex;align-items:center;gap:8px;">
+          <span style="color:#555;font-size:10px;">localhost:3000/?edit=1</span>
+        </div>
+        <div style="padding:12px;">
+          <div style="background:#111;border:1px solid #1e1e1e;border-radius:6px;padding:10px;margin-bottom:8px;">
+            <div style="color:#888;font-size:9px;margin-bottom:6px;">LANDING PAGE (normal)</div>
+            <div style="height:4px;background:#1a1a1a;border-radius:2px;margin-bottom:4px;"></div>
+            <div style="height:4px;background:#1a1a1a;border-radius:2px;width:70%;margin-bottom:4px;"></div>
+            <div style="height:4px;background:#1a1a1a;border-radius:2px;width:50%;"></div>
+          </div>
+          <div style="background:#0d1a14;border:1px solid #1a3a26;border-radius:6px;padding:10px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+              <span style="color:#6ee7b7;font-size:9px;font-weight:700;">LEADS PANEL</span>
+              <span style="color:#555;font-size:9px;">✕</span>
+            </div>
+            <div style="display:flex;gap:4px;margin-bottom:6px;">
+              <div style="background:#1a3a26;color:#6ee7b7;padding:2px 6px;border-radius:3px;font-size:8px;">All</div>
+              <div style="background:#111;color:#555;padding:2px 6px;border-radius:3px;font-size:8px;">Downloaded</div>
+              <div style="background:#111;color:#555;padding:2px 6px;border-radius:3px;font-size:8px;">New</div>
+            </div>
+            <div style="background:#111;border:1px solid #1e1e1e;border-radius:4px;padding:6px;margin-bottom:4px;display:flex;gap:6px;align-items:center;">
+              <div style="width:10px;height:10px;border:1px solid #333;border-radius:2px;"></div>
+              <div><div style="color:#ccc;font-size:9px;">+995 599 123 456</div><div style="color:#555;font-size:8px;">Acme Ltd · IT & Technology</div></div>
+            </div>
+            <div style="background:#111;border:1px solid #1e1e1e;border-radius:4px;padding:6px;display:flex;gap:6px;align-items:center;">
+              <div style="width:10px;height:10px;border:1px solid #333;border-radius:2px;background:#6ee7b7;"></div>
+              <div><div style="color:#ccc;font-size:9px;">+995 577 987 654</div><div style="color:#555;font-size:8px;">No details</div></div>
+            </div>
+          </div>
+        </div>
+        <div style="background:#0d0d0d;border-top:1px solid #1a1a1a;padding:8px 12px;display:flex;justify-content:flex-end;gap:6px;">
+          <div style="background:#1a1a1a;color:#666;padding:4px 10px;border-radius:5px;font-size:9px;">Exit edit mode</div>
+          <div style="background:#0D9488;color:white;padding:4px 10px;border-radius:5px;font-size:9px;">Leads ↗</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Slide-over panel on the landing page</h3>
+      <p>A "Leads" button added to the CMS toolbar opens a slide-over panel on top of the existing page. No new route. Stays within the edit=1 context.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a0a;padding:16px;border-radius:8px;font-size:11px;font-family:monospace;">
+      <div style="background:#111;border:1px solid #1e1e1e;border-radius:8px;overflow:hidden;">
+        <div style="background:#0d0d0d;border-bottom:1px solid #1a1a1a;padding:8px 12px;display:flex;align-items:center;gap:8px;">
+          <span style="color:#555;font-size:10px;">localhost:3000/leads?edit=1</span>
+        </div>
+        <div style="padding:12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="color:#fff;font-size:12px;font-weight:700;">Leads</div>
+            <div style="background:#0D9488;color:white;padding:4px 10px;border-radius:5px;font-size:9px;">↓ Download selected</div>
+          </div>
+          <div style="display:flex;gap:4px;margin-bottom:8px;">
+            <div style="background:#1a3a26;color:#6ee7b7;padding:2px 6px;border-radius:3px;font-size:8px;">All (12)</div>
+            <div style="background:#111;color:#555;padding:2px 6px;border-radius:3px;font-size:8px;">New (8)</div>
+            <div style="background:#111;color:#555;padding:2px 6px;border-radius:3px;font-size:8px;">Downloaded (4)</div>
+          </div>
+          <div style="background:#111;border:1px solid #1e1e1e;border-radius:4px;padding:6px;margin-bottom:4px;display:flex;gap:6px;align-items:center;">
+            <div style="width:10px;height:10px;border:1px solid #333;border-radius:2px;"></div>
+            <div style="flex:1;"><div style="color:#ccc;font-size:9px;">+995 599 123 456</div><div style="color:#555;font-size:8px;">Acme Ltd · IT & Technology · giorgi@acme.ge</div></div>
+            <div style="color:#6ee7b7;font-size:8px;">New</div>
+          </div>
+          <div style="background:#111;border:1px solid #1e1e1e;border-radius:4px;padding:6px;margin-bottom:4px;display:flex;gap:6px;align-items:center;">
+            <div style="width:10px;height:10px;border:1px solid #333;border-radius:2px;background:#6ee7b7;"></div>
+            <div style="flex:1;"><div style="color:#ccc;font-size:9px;">+995 577 987 654</div><div style="color:#555;font-size:8px;">No details</div></div>
+            <div style="color:#555;font-size:8px;">New</div>
+          </div>
+          <div style="background:#111;border:1px solid #1e1e1e;border-radius:4px;padding:6px;display:flex;gap:6px;align-items:center;opacity:.5;">
+            <div style="width:10px;height:10px;border:1px solid #333;border-radius:2px;"></div>
+            <div style="flex:1;"><div style="color:#ccc;font-size:9px;">+995 598 111 222</div><div style="color:#555;font-size:8px;">Beta Corp · Retail</div></div>
+            <div style="color:#555;font-size:8px;">↓ Done</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Dedicated /leads page (recommended)</h3>
+      <p>A separate route at <code>/leads?edit=1</code>, protected by the cms_session cookie. Full page to work with — easier to read, sort, and download a large list. Link from the CMS toolbar.</p>
+    </div>
+  </div>
+
+</div>

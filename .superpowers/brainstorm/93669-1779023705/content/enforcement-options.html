@@ -1,0 +1,44 @@
+<style>
+  .opt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 0; }
+  .complexity-bar { display: flex; gap: 3px; margin: 8px 0; }
+  .cb-dot { width: 8px; height: 8px; border-radius: 50%; background: #E5E7EB; }
+  .cb-dot.filled { background: #0F1C32; }
+  code { background: #F3F4F6; border-radius: 3px; padding: 1px 5px; font-size: 11px; color: #0D6D68; }
+</style>
+
+<h2>How strict do you want enforcement?</h2>
+<p class="subtitle">Three levels of strictness — pick how much control you want.</p>
+
+<div class="opt-grid">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Perceptual Balance</h3>
+      <div class="complexity-bar"><div class="cb-dot filled"></div><div class="cb-dot"></div><div class="cb-dot"></div></div>
+      <p>Tighten padding on dark sections at mobile breakpoints so they don't balloon. Simple CSS-only. The ratio stays <em>close</em> but isn't mathematically enforced — just feels right at every size.</p>
+      <p style="margin-top:8px"><code>padding: 56px → 40px</code> at mobile on .problem and .waitlist</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Viewport-Anchored Heights</h3>
+      <div class="complexity-bar"><div class="cb-dot filled"></div><div class="cb-dot filled"></div><div class="cb-dot"></div></div>
+      <p>Give dark sections a <code>min-height</code> in <code>svh</code> units (e.g. <code>min-height: 28svh</code>) so their height is proportional to the viewport at every size — not just padded. More precise than A.</p>
+      <p style="margin-top:8px">Still CSS-only. Requires some tuning per section. Ratio holds loosely at all sizes.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>JS-Enforced Ratio</h3>
+      <div class="complexity-bar"><div class="cb-dot filled"></div><div class="cb-dot filled"></div><div class="cb-dot filled"></div></div>
+      <p>A <code>ResizeObserver</code> measures actual rendered section heights on every resize, calculates the ratio, and adjusts <code>--section-padding</code> CSS custom properties live to bring it back to 60·30·10.</p>
+      <p style="margin-top:8px">Mathematically accurate. Adds JS overhead. Overkill for a landing page.</p>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle">My recommendation: <strong>Option A</strong> — perceptual balance via tighter mobile padding. The 6·3·1 rule is a design guideline, not an engineering constraint. Close enough at every viewport is the right target.</p>

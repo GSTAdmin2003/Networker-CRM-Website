@@ -1,0 +1,30 @@
+<h2>How should the two phases submit?</h2>
+<p class="subtitle">Phase 1 saves the phone. Phase 2 adds details to the same row. The question is how they're linked.</p>
+
+<div class="options">
+
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Two endpoints — recommended</h3>
+      <p>Phase 1 <code>POST /api/contact</code> → saves phone, returns row <code>id</code>. Phase 2 <code>PATCH /api/contact</code> → sends that <code>id</code> + details, updates the same row. ID is held in React state only — never in the URL.</p>
+      <div class="pros-cons" style="margin-top:10px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Phone saved the instant they hit submit</li><li>Phase 2 enriches the same row cleanly</li><li>Simple to implement</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Row ID sent to client (UUIDs, low risk)</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Single endpoint, phase flag</h3>
+      <p><code>POST /api/contact</code> with <code>phase: 1</code> → saves phone. Same endpoint with <code>phase: 2, id</code> → updates. Functionally identical to A but one route file instead of two.</p>
+      <div class="pros-cons" style="margin-top:10px;">
+        <div class="pros"><h4>Pros</h4><ul><li>One route file to maintain</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Slightly messier handler logic</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>

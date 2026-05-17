@@ -1,0 +1,42 @@
+<h2>How should the leads page fetch and update data?</h2>
+<p class="subtitle">Three approaches — pick based on how much you care about real-time updates.</p>
+
+<div class="options">
+
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Server-rendered table + client interaction (recommended)</h3>
+      <p>Page server component fetches all leads on load and passes them to a client component. Client handles filtering, checkbox selection, CSV generation, and calls <code>PATCH /api/leads</code> to mark downloaded. No GET API endpoint needed — data comes from the server render.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Instant first paint — data already there</li><li>Simpler — fewer moving parts</li><li>Consistent with existing page pattern</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Stale after download — requires page refresh to see updated badges</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Client fetches from API</h3>
+      <p>Client component calls <code>GET /api/leads</code> on mount, then <code>PATCH /api/leads</code> on download. Can re-fetch after marking downloaded so badges update live.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Can refresh data after marking downloaded</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Loading spinner on page open</li><li>Extra API endpoint to build and secure</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Server-rendered + optimistic update</h3>
+      <p>Same as A but the client optimistically flips downloaded badges locally after the PATCH succeeds — no page refresh needed, no extra GET endpoint.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Instant feedback</li><li>No GET endpoint needed</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Slightly more client logic</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>

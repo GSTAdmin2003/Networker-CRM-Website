@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leads Page Design</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #080808; color: #e5e5e5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 24px 16px; }
+  h2 { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .subtitle { font-size: 12px; color: #555; margin-bottom: 24px; }
+
+  .page-mock {
+    background: #0d0d0d;
+    border: 1px solid #1e1e1e;
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .page-header {
+    background: #0d0d0d;
+    border-bottom: 1px solid #1a1a1a;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .page-title { font-size: 15px; font-weight: 700; color: #fff; }
+  .back-link { font-size: 11px; color: #555; margin-left: 12px; }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
+  .btn-download {
+    background: #6ee7b7; color: #000; font-size: 11px; font-weight: 700;
+    border: none; border-radius: 6px; padding: 7px 14px; cursor: default;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .btn-download.disabled { background: #1a1a1a; color: #444; }
+  .select-all-label { font-size: 11px; color: #555; display: flex; align-items: center; gap: 5px; }
+  .cb { width: 13px; height: 13px; border: 1px solid #333; border-radius: 2px; background: #111; display: inline-block; }
+  .cb.checked { background: #6ee7b7; border-color: #6ee7b7; }
+
+  /* Filter tabs */
+  .filters {
+    padding: 12px 20px;
+    border-bottom: 1px solid #1a1a1a;
+    display: flex;
+    gap: 6px;
+    background: #0d0d0d;
+  }
+  .filter-tab {
+    font-size: 11px; padding: 4px 10px; border-radius: 4px;
+    cursor: default; border: 1px solid transparent;
+  }
+  .filter-tab.active { background: #0d1a14; border-color: #1a3a26; color: #6ee7b7; }
+  .filter-tab.inactive { background: #111; border-color: #1e1e1e; color: #555; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  th {
+    text-align: left; padding: 8px 12px; color: #444;
+    font-size: 10px; text-transform: uppercase; letter-spacing: .06em;
+    border-bottom: 1px solid #1a1a1a; background: #0d0d0d;
+    white-space: nowrap;
+  }
+  td { padding: 10px 12px; border-bottom: 1px solid #111; color: #aaa; vertical-align: middle; }
+  tr.selected td { background: #0a1a10; }
+  tr.downloaded td { opacity: .5; }
+  .badge-new { background: #0d1a14; color: #6ee7b7; font-size: 9px; padding: 2px 6px; border-radius: 3px; }
+  .badge-done { background: #1a1a1a; color: #444; font-size: 9px; padding: 2px 6px; border-radius: 3px; }
+  .phone { color: #e5e5e5; font-weight: 500; }
+  .empty-cell { color: #2a2a2a; font-style: italic; font-size: 10px; }
+  .col-cb { width: 36px; }
+  .col-status { width: 72px; text-align: right; }
+  .col-date { width: 96px; color: #444 !important; font-size: 10px !important; }
+
+  /* Empty state */
+  .empty-state {
+    padding: 48px 20px; text-align: center; color: #333; font-size: 12px;
+  }
+
+  /* Footer count */
+  .table-footer {
+    padding: 10px 20px; border-top: 1px solid #1a1a1a;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 10px; color: #444; background: #0d0d0d;
+  }
+
+  /* CMS toolbar */
+  .cms-toolbar {
+    position: relative; margin-top: 16px;
+    display: flex; justify-content: flex-end; gap: 8px;
+  }
+  .toolbar-btn {
+    font-size: 11px; padding: 7px 14px; border-radius: 6px; cursor: default;
+  }
+  .toolbar-leads { background: #111; border: 1px solid #1e1e1e; color: #6ee7b7; }
+  .toolbar-exit { background: #fff; border: 1px solid #e5e7eb; color: #374151; }
+  .toolbar-save { background: #0D9488; color: white; border: none; font-weight: 600; }
+  .toolbar-note { font-size: 10px; color: #444; text-align: right; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<h2>Leads page — full design</h2>
+<p class="subtitle">Route: /leads?edit=1 · Protected by cms_session cookie · Linked from CMS toolbar</p>
+
+<div class="page-mock">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div style="display:flex;align-items:center;">
+      <div class="page-title">Leads</div>
+      <div class="back-link">← Back to site</div>
+    </div>
+    <div class="header-actions">
+      <label class="select-all-label">
+        <span class="cb"></span> Select all
+      </label>
+      <button class="btn-download disabled">↓ Download CSV</button>
+    </div>
+  </div>
+
+  <!-- Filter tabs -->
+  <div class="filters">
+    <div class="filter-tab active">All <span style="color:#3a5a48;margin-left:3px;">12</span></div>
+    <div class="filter-tab inactive">New <span style="color:#3a3a3a;margin-left:3px;">8</span></div>
+    <div class="filter-tab inactive">Downloaded <span style="color:#3a3a3a;margin-left:3px;">4</span></div>
+  </div>
+
+  <!-- Table -->
+  <table>
+    <thead>
+      <tr>
+        <th class="col-cb"></th>
+        <th>Phone</th>
+        <th>Company</th>
+        <th>ID</th>
+        <th>Rep name</th>
+        <th>Email</th>
+        <th>Industry</th>
+        <th class="col-date">Submitted</th>
+        <th class="col-status">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="selected">
+        <td class="col-cb"><span class="cb checked"></span></td>
+        <td class="phone">+995 599 123 456</td>
+        <td>Acme Ltd</td>
+        <td>123456789</td>
+        <td>Giorgi B.</td>
+        <td>giorgi@acme.ge</td>
+        <td>IT & Tech</td>
+        <td class="col-date">2026-05-18</td>
+        <td class="col-status"><span class="badge-new">New</span></td>
+      </tr>
+      <tr>
+        <td class="col-cb"><span class="cb"></span></td>
+        <td class="phone">+995 577 987 654</td>
+        <td class="empty-cell">—</td>
+        <td class="empty-cell">—</td>
+        <td class="empty-cell">—</td>
+        <td class="empty-cell">—</td>
+        <td class="empty-cell">—</td>
+        <td class="col-date">2026-05-17</td>
+        <td class="col-status"><span class="badge-new">New</span></td>
+      </tr>
+      <tr class="downloaded">
+        <td class="col-cb"><span class="cb"></span></td>
+        <td class="phone">+995 598 111 222</td>
+        <td>Beta Corp</td>
+        <td class="empty-cell">—</td>
+        <td>Nino K.</td>
+        <td>nino@beta.ge</td>
+        <td>Retail</td>
+        <td class="col-date">2026-05-16</td>
+        <td class="col-status"><span class="badge-done">↓ Done</span></td>
+      </tr>
+      <tr class="downloaded">
+        <td class="col-cb"><span class="cb"></span></td>
+        <td class="phone">+995 551 444 777</td>
+        <td class="empty-cell">—</td>
+        <td class="empty-cell">—</td>
+        <td class="empty-cell">—</td>
+        <td class="empty-cell">—</td>
+        <td class="empty-cell">—</td>
+        <td class="col-date">2026-05-15</td>
+        <td class="col-status"><span class="badge-done">↓ Done</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-footer">
+    <span>1 selected · 12 total</span>
+    <span>Sorted by newest first</span>
+  </div>
+
+</div>
+
+<!-- CMS toolbar (where Leads link lives) -->
+<div class="cms-toolbar">
+  <button class="toolbar-btn toolbar-leads">Leads ↗</button>
+  <button class="toolbar-btn toolbar-exit">Exit edit mode</button>
+  <button class="toolbar-btn toolbar-save">Save changes</button>
+</div>
+<div class="toolbar-note">CMS toolbar (already on the landing page in edit=1 mode)</div>
+
+</body>
+</html>
