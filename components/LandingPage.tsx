@@ -50,7 +50,7 @@ export default function LandingPage({ cmsContent, cmsMode, photos }: Props) {
       <Compare t={t} lang={lang} />
       <Pricing t={t} lang={lang} />
       <Team t={t} lang={lang} photos={photos} />
-      <Waitlist t={t} lang={lang} />
+      <Waitlist t={t} lang={lang} onContactClick={() => setContactOpen(true)} />
       <Footer t={t} onContactClick={() => setContactOpen(true)} />
       {contactOpen && <ContactModal onClose={() => setContactOpen(false)} t={t} lang={lang} />}
     </>
