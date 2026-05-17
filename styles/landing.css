@@ -848,7 +848,7 @@ h1.hero-headline em {
 .team-photo-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   background: linear-gradient(135deg, var(--ink-100) 0%, var(--ink-50) 100%);
   overflow: hidden;
 }
