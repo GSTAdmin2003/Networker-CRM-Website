@@ -1,32 +1,19 @@
-'use client'
-import { useRef, useEffect, createElement } from 'react'
-import { useCMS } from './CMSContext'
+import { createElement } from 'react'
 
 interface Props {
-  cmsKey: string
+  cmsKey?: string
   html: string
   as?: keyof React.JSX.IntrinsicElements
   className?: string
 }
 
-export function EditableText({ cmsKey, html, as: Tag = 'span', className }: Props) {
-  const { editMode } = useCMS()
-  const ref = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    if (ref.current) ref.current.innerHTML = html
-  }, [html])
-
-  if (!editMode) {
-    return createElement(Tag as keyof React.JSX.IntrinsicElements, { className, dangerouslySetInnerHTML: { __html: html } })
-  }
-
+// Plain static rendering -- the CMS edit-mode branch this component used to
+// have was removed (no admin editing on this site anymore). `cmsKey` is kept
+// as an accepted-but-unused prop so every call site across the landing
+// sections needs no changes.
+export function EditableText({ html, as: Tag = 'span', className }: Props) {
   return createElement(Tag as keyof React.JSX.IntrinsicElements, {
-    ref,
-    'data-cms-key': cmsKey,
     className,
-    contentEditable: true,
-    suppressContentEditableWarning: true,
-    style: { outline: '2px dashed rgba(13,148,136,0.4)', borderRadius: 2 },
+    dangerouslySetInnerHTML: { __html: html },
   })
 }

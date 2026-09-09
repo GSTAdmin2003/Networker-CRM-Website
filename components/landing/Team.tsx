@@ -1,7 +1,6 @@
 'use client'
 import { EditableText } from '@/components/cms/EditableText'
 import { EditableImage } from '@/components/cms/EditableImage'
-import { useCMS } from '@/components/cms/CMSContext'
 import { Lang } from '@/lib/i18n'
 
 interface Props {
@@ -17,7 +16,6 @@ const MEMBERS = [
 ] as const
 
 export function Team({ t, lang, photos }: Props) {
-  const { editMode } = useCMS()
   return (
     <section className="section-tight" id="team" style={{ background: 'white' }}>
       <div className="wrap">
@@ -41,7 +39,6 @@ export function Team({ t, lang, photos }: Props) {
                   <div className="team-photo-initials" style={idx === 1 ? { background: 'var(--teal-700)' } : idx === 2 ? { background: 'var(--navy-700)' } : {}}>
                     {m.initials}
                   </div>
-                  {editMode && <div className="team-photo-hint">Drop photo</div>}
                 </div>
                 <EditableImage
                   slot={m.slot}

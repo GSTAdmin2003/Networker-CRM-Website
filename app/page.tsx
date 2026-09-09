@@ -1,4 +1,3 @@
-import { fetchCMSContent } from '@/lib/cms'
 import { createServerClient } from '@/lib/supabase-server'
 import LandingPage from '@/components/LandingPage'
 
@@ -23,13 +22,7 @@ async function getTeamPhotos(): Promise<{ tsotne: string | null; davit: string |
   }
 }
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ edit?: string }>
-}) {
-  const params = await searchParams
-  const cmsMode = params.edit === '1'
-  const [cmsContent, photos] = await Promise.all([fetchCMSContent(), getTeamPhotos()])
-  return <LandingPage cmsContent={cmsContent} cmsMode={cmsMode} photos={photos} />
+export default async function Page() {
+  const photos = await getTeamPhotos()
+  return <LandingPage photos={photos} />
 }
