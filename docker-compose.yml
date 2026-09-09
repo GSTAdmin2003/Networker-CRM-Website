@@ -1,0 +1,44 @@
+# Production deploy for the marketing site, self-hosted on the same box as
+# the CRM (networker-prod). Runs as its own independent compose project
+# (own directory, own .env) -- mirrors how `mobipolice` is deployed
+# alongside the CRM on this box: a separate app gets a separate compose
+# stack, sharing only the CRM's own Caddy instance for TLS/routing (see
+# /opt/crm/deploy/Caddyfile.hetzner's own "site block to APPEND" comment
+# for the established pattern this follows).
+#
+# Deploy: docker compose --env-file .env build --build-arg-file... (see
+# deploy.sh) && docker compose --env-file .env up -d
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:?NEXT_PUBLIC_SUPABASE_URL must be set}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:?NEXT_PUBLIC_SUPABASE_ANON_KEY must be set}
+        NEXT_PUBLIC_POSTHOG_KEY: ${NEXT_PUBLIC_POSTHOG_KEY:-}
+        NEXT_PUBLIC_POSTHOG_HOST: ${NEXT_PUBLIC_POSTHOG_HOST:-}
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      # Server-only secrets -- deliberately runtime-only, never a build
+      # arg, so they never land in an image layer. Read by the /api/cms*
+      # routes and the Supabase service-role client.
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:?SUPABASE_SERVICE_ROLE_KEY must be set}
+      CMS_SECRET: ${CMS_SECRET:?CMS_SECRET must be set}
+    expose:
+      - "3000"
+    networks:
+      # The CRM's own Caddy instance lives on this network (its compose
+      # project directory is /opt/crm, so Compose's default network is
+      # literally named crm_default) -- joining it, not creating our own,
+      # is what lets Caddy reverse_proxy to this container by name.
+      - crm_default
+
+networks:
+  crm_default:
+    external: true
