@@ -32,7 +32,12 @@ ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL \
     NEXT_PUBLIC_POSTHOG_KEY=$NEXT_PUBLIC_POSTHOG_KEY \
     NEXT_PUBLIC_POSTHOG_HOST=$NEXT_PUBLIC_POSTHOG_HOST
 
-RUN npm run build
+# public/ is a genuinely empty directory in this repo right now -- git
+# does not track empty directories at all, so a fresh clone has no
+# public/ directory to COPY --from in the runner stage below. mkdir -p
+# makes that COPY always valid, whether or not public/ ever gains real
+# files (and harmless if it already exists).
+RUN npm run build && mkdir -p public
 
 # ── Stage 3: runtime ─────────────────────────────────────────────────────
 FROM node:22-alpine AS runner
