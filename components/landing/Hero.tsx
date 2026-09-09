@@ -4,29 +4,22 @@ import { Lang } from '@/lib/i18n'
 interface Props {
   t: (key: string) => string
   lang: Lang
-  editMode: boolean
 }
 
-export function Hero({ t, lang, editMode }: Props) {
+export function Hero({ t, lang }: Props) {
   return (
     <section className="hero" id="top">
       <div className="hero-grid" />
       <div className="wrap hero-inner">
         <div className="eyebrow">
           <span className="eyebrow-dot" />
-          {editMode
-            ? <EditableText cmsKey={`hero_eyebrow_${lang}`} html={t('hero_eyebrow')} />
-            : <span dangerouslySetInnerHTML={{ __html: t('hero_eyebrow') }} />}
+          <EditableText cmsKey={`hero_eyebrow_${lang}`} html={t('hero_eyebrow')} />
         </div>
         <h1 className="hero-headline">
-          {editMode
-            ? <EditableText cmsKey={`hero_h1_${lang}`} html={t('hero_h1')} />
-            : <span dangerouslySetInnerHTML={{ __html: t('hero_h1') }} />}
+          <EditableText cmsKey={`hero_h1_${lang}`} html={t('hero_h1')} />
         </h1>
         <p className="hero-sub">
-          {editMode
-            ? <EditableText cmsKey={`hero_sub_${lang}`} html={t('hero_sub')} />
-            : <span dangerouslySetInnerHTML={{ __html: t('hero_sub') }} />}
+          <EditableText cmsKey={`hero_sub_${lang}`} html={t('hero_sub')} />
         </p>
         <div className="hero-actions">
           <a href="#waitlist" className="btn btn-primary">

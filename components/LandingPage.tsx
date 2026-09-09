@@ -1,5 +1,4 @@
 'use client'
-import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import { I18N, makeT, Lang } from '@/lib/i18n'
 import { Nav } from '@/components/landing/Nav'
@@ -12,17 +11,12 @@ import { Team } from '@/components/landing/Team'
 import { Waitlist } from '@/components/landing/Waitlist'
 import { Footer } from '@/components/landing/Footer'
 import { ContactModal } from '@/components/landing/ContactModal'
-import type { CMSContent } from '@/lib/cms'
-
-const CMSLayer = dynamic(() => import('@/components/cms/CMSLayer'), { ssr: false })
 
 interface Props {
-  cmsContent: CMSContent
-  cmsMode: boolean
   photos: { tsotne: string | null; davit: string | null; levan: string | null }
 }
 
-export default function LandingPage({ cmsContent, cmsMode, photos }: Props) {
+export default function LandingPage({ photos }: Props) {
   const [lang, setLang] = useState<Lang>(() => {
     try {
       const saved = localStorage.getItem('nwk-lang') as Lang | null
@@ -39,12 +33,12 @@ export default function LandingPage({ cmsContent, cmsMode, photos }: Props) {
     document.documentElement.lang = l
   }
 
-  const t = makeT(lang, cmsContent)
+  const t = makeT(lang)
 
   const sections = (
     <>
       <Nav t={t} lang={lang} onLangChange={handleLangChange} />
-      <Hero t={t} lang={lang} editMode={cmsMode} />
+      <Hero t={t} lang={lang} />
       <Problem t={t} lang={lang} />
       <Features t={t} lang={lang} />
       <Compare t={t} lang={lang} />
@@ -56,7 +50,5 @@ export default function LandingPage({ cmsContent, cmsMode, photos }: Props) {
     </>
   )
 
-  if (!cmsMode) return <>{sections}</>
-
-  return <CMSLayer>{sections}</CMSLayer>
+  return sections
 }
