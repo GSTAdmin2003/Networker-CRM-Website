@@ -33,7 +33,7 @@ export function Nav({ t, lang, onLangChange }: Props) {
         </div>
         <div className="nav-right">
           <div className="lang-switch" role="group" aria-label="Language">
-            {(['en', 'ka'] as Lang[]).map((l) => (
+            {(['ka', 'en'] as Lang[]).map((l) => (
               <button
                 key={l}
                 className={`lang-btn${lang === l ? ' active' : ''}`}

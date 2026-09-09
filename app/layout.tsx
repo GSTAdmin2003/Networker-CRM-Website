@@ -48,7 +48,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${jakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang="ka" className={`${jakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <body>
         <script
           type="application/ld+json"

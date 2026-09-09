@@ -21,9 +21,9 @@ export default function LandingPage({ photos }: Props) {
     try {
       const saved = localStorage.getItem('nwk-lang') as Lang | null
       if (saved && I18N[saved]) return saved
-      if (navigator.language.toLowerCase().startsWith('ka')) return 'ka'
+      if (navigator.language.toLowerCase().startsWith('en')) return 'en'
     } catch {}
-    return 'en'
+    return 'ka'
   })
   const [contactOpen, setContactOpen] = useState(false)
 
