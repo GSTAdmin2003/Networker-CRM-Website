@@ -39,6 +39,11 @@ export const metadata: Metadata = {
     title: 'Networker CRM',
     description: 'The CRM Georgian sales teams actually use.',
   },
+  verification: {
+    other: {
+      'facebook-domain-verification': '3c8vlarmtr2p8inod94i1m52lgmon1',
+    },
+  },
 }
 
 export const viewport: Viewport = {
