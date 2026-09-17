@@ -100,6 +100,9 @@ export const I18N: Record<Lang, Record<string, string>> = {
     contact_submit_details: 'Save details',
     footer_tagline: 'All-in-one · AI-powered',
     footer_contact: 'Contact',
+    footer_about: 'About',
+    footer_privacy: 'Privacy Policy',
+    footer_terms: 'Terms and Conditions',
     footer_copy: '© 2026 Networker CRM · შპს ნეთვორქერ სი არ ემ (LLC Networker CRM) · ID 404818293 · Tbilisi, Georgia · Confidential',
   },
   ka: {
@@ -198,6 +201,9 @@ export const I18N: Record<Lang, Record<string, string>> = {
     contact_submit_details: 'შენახვა',
     footer_tagline: 'ყველაფერი ერთში · AI-ზე დაფუძნებული',
     footer_contact: 'კონტაქტი',
+    footer_about: 'ჩვენ შესახებ',
+    footer_privacy: 'კონფიდენციალურობის პოლიტიკა',
+    footer_terms: 'წესები და პირობები',
     footer_copy: '© 2026 Networker CRM · შპს ნეთვორქერ სი არ ემ · ID 404818293 · თბილისი, საქართველო · კონფიდენციალური',
   },
 }

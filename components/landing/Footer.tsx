@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 interface Props { t: (key: string) => string; onContactClick: () => void }
 
 export function Footer({ t, onContactClick }: Props) {
@@ -26,6 +28,11 @@ export function Footer({ t, onContactClick }: Props) {
           <a href="#team" dangerouslySetInnerHTML={{ __html: t('nav_team') }} />
           <a href="#" onClick={(e) => { e.preventDefault(); onContactClick() }} dangerouslySetInnerHTML={{ __html: t('footer_contact') }} />
         </div>
+      </div>
+      <div className="wrap flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ink-500 mt-4">
+        <Link href="/about" className="hover:text-navy-900" dangerouslySetInnerHTML={{ __html: t('footer_about') }} />
+        <Link href="/privacy" className="hover:text-navy-900" dangerouslySetInnerHTML={{ __html: t('footer_privacy') }} />
+        <Link href="/terms" className="hover:text-navy-900" dangerouslySetInnerHTML={{ __html: t('footer_terms') }} />
       </div>
       <div className="wrap footer-copy" dangerouslySetInnerHTML={{ __html: t('footer_copy') }} />
     </footer>
