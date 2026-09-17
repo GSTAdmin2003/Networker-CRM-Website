@@ -1,28 +1,11 @@
-import { createServerClient } from '@/lib/supabase-server'
 import LandingPage from '@/components/LandingPage'
 
-async function getTeamPhotos(): Promise<{ tsotne: string | null; davit: string | null; levan: string | null }> {
-  try {
-    const supabase = createServerClient()
-    const slots = ['tsotne', 'davit', 'levan'] as const
-    const results = await Promise.all(
-      slots.map(async (name) => {
-        const { data } = await supabase.storage
-          .from('team-photos')
-          .list('', { search: `team-${name}` })
-        if (!data?.length) return [name, null] as const
-        const latest = [...data].sort((a, b) => (b.created_at ?? '').localeCompare(a.created_at ?? ''))[0]
-        const { data: u } = supabase.storage.from('team-photos').getPublicUrl(latest.name)
-        return [name, u.publicUrl] as const
-      })
-    )
-    return Object.fromEntries(results) as { tsotne: string | null; davit: string | null; levan: string | null }
-  } catch {
-    return { tsotne: null, davit: null, levan: null }
-  }
+const TEAM_PHOTOS = {
+  tsotne: '/team/tsotne.jpg',
+  davit: '/team/davit.jpg',
+  levan: '/team/levan.jpg',
 }
 
-export default async function Page() {
-  const photos = await getTeamPhotos()
-  return <LandingPage photos={photos} />
+export default function Page() {
+  return <LandingPage photos={TEAM_PHOTOS} />
 }
