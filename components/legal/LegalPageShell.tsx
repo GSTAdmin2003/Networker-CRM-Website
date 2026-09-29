@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { I18N, Lang } from '@/lib/i18n'
 import { LegalPage } from '@/lib/legal-content'
@@ -11,15 +11,30 @@ interface Props {
 
 const BACK: Record<Lang, string> = { en: '← Back to home', ka: '← მთავარ გვერდზე დაბრუნება' }
 
+function subscribeToLangChoice(onChange: () => void) {
+  window.addEventListener('storage', onChange)
+  return () => window.removeEventListener('storage', onChange)
+}
+
+function readLangChoice(): Lang | null {
+  try {
+    const saved = localStorage.getItem('nwk-lang') as Lang | null
+    return saved && I18N[saved] ? saved : null
+  } catch {
+    return null
+  }
+}
+
 export function LegalPageShell({ content }: Props) {
-  const [lang, setLang] = useState<Lang>(() => {
-    try {
-      const saved = localStorage.getItem('nwk-lang') as Lang | null
-      if (saved && I18N[saved]) return saved
-      if (navigator.language.toLowerCase().startsWith('en')) return 'en'
-    } catch {}
-    return 'ka'
-  })
+  // The server renders Georgian (the default language), so the first client
+  // render must too -- guessing from navigator.language here rendered a
+  // different language than the server and caused a hydration mismatch, and
+  // crawlers report en-US. Only an EXPLICIT earlier choice of the language
+  // switch is honoured: useSyncExternalStore reads it with a server snapshot of
+  // `null` and applies it right after hydration, without a cascading effect.
+  const stored = useSyncExternalStore(subscribeToLangChoice, readLangChoice, () => null)
+  const [chosen, setChosen] = useState<Lang | null>(null)
+  const lang: Lang = chosen ?? stored ?? 'ka'
 
   // Sync the <html lang> attribute to React state, rather than mutating it
   // directly inside the click handler -- keeps the DOM in sync with state
@@ -29,7 +44,7 @@ export function LegalPageShell({ content }: Props) {
   }, [lang])
 
   function handleLangChange(l: Lang) {
-    setLang(l)
+    setChosen(l)
     try { localStorage.setItem('nwk-lang', l) } catch {}
   }
 
