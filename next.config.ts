@@ -7,6 +7,16 @@ const nextConfig: NextConfig = {
   // image. Has no effect on the Vercel deployment path if one is ever
   // used again.
   output: 'standalone',
+  // Form endpoints are not content: keep them out of every index even if a
+  // crawler ignores robots.txt and reaches one directly.
+  async headers() {
+    return [
+      {
+        source: '/api/:path*',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
+    ]
+  },
   images: {
     remotePatterns: [
       {
